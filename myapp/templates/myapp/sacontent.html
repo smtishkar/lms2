@@ -1,0 +1,33 @@
+{% extends 'myapp/base.html' %}
+<!-- {% load static %}   -->
+
+{% block content %}
+
+<h1 class="test">Обучение для Сервисных консультантов</h1>
+<div class="side2">
+<div>
+    {% include 'myapp/includes/nav.html' %}   
+</div>
+<div class="container">
+    <div class="row">
+      <div class="col">
+        <img src="{% static 'myapp/image/technician.jpg' %}" class="img-thumbnail" alt="technician">
+        <a href="http://127.0.0.1:8000/cats/technicians">
+            <button type="button" class="btn btn-primary btn-lg">Тема 1</button>
+        </a>
+      </div>
+      <div class="col">
+        <img src="{% static 'myapp/image/service_advisor.jpg' %}" class="img-thumbnail" alt="service_advisor">
+        <button type="button" class="btn btn-primary btn-lg">Тема 2</button>
+    </div>
+    <div class="col">
+        <img src="{% static 'myapp/image/service_advisor.jpg' %}" class="img-thumbnail" alt="service_advisor">
+        <button type="button" class="btn btn-primary btn-lg">Тема 3</button>
+    </div>
+</div>
+</div>
+
+
+</div>
+
+{% endblock content %}

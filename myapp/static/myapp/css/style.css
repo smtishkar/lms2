@@ -1,0 +1,36 @@
+/* BODY {
+    background-color: red;
+    } */
+
+.test {
+    color: red;
+}
+
+.side2 {
+    display: flex;
+}
+
+.row{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 2fr;
+    gap: 30px;
+    row-gap: 90px;
+    justify-items: center;
+}
+
+/* .content-button{
+    width: 599px;
+} */
+
+.col{
+    gap: 10px;
+    display: flex;
+    width: 400px;
+    flex-direction: column;
+}
+/* 
+.img-box{
+    height: 580px;
+    width: 580px;
+} */
