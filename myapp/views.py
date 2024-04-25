@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Video, Site_sections, Technicians_cources
+from .models import Video, Site_sections, Technicians_cources, Videos
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404
 from .services import open_file
@@ -60,7 +60,28 @@ def pdf_view(request):
 
 
 def get_site_sections(request):
-    return render(request, 'myapp/index.html', {'sections': Site_sections.objects.all()})
+    # w = Site_sections.objects.all()[0]
+    # print(w.image.url)
+    return render(request, 'myapp/index.html', {'sections': Site_sections.objects.all(), 'videos':Videos.objects.all()  })
 
 def get_technician_content(request):
+    # w = Technicians_cources.objects.all()[4]
+    # print(w.image.url)
     return render(request, 'myapp/techcont.html', {'cources': Technicians_cources.objects.all()})
+
+
+def get_tt_level_content(request):
+    return render(request, 'myapp/tt_level.html', {'cources': Technicians_cources.objects.all(), 'videos':Videos.objects.all()})
+
+
+
+
+
+# def embed_video(request):
+#     videos = Videos.objects.all()
+
+#     context = {
+#         'videos': videos
+#     }
+
+#     return render(request, 'myapp/index.html', context)

@@ -13,4 +13,6 @@ urlpatterns = [
     path('pdf/', views.pdf_view, name='pdf'),
     path('', views.get_site_sections, name = 'index'),
     path('technicians/', views.get_technician_content, name = 'techcont'),
+    path('technicians/tt-level/', views.get_tt_level_content, name = 'tt-level'),
+
 ]
