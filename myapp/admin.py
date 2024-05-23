@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Video, Course_structures, Site_sections, Technicians_cources
+from .models import Video, Site_sections, Technicians_cources, Training_chapters, Training_parts
 
 # Register your models here.
 
@@ -14,9 +14,18 @@ admin.site.register(Videos, MyModelAdmin)
 
 @admin.register(Technicians_cources)
 class Technicians_courcesAdmin(admin.ModelAdmin):
-    readonly_fields = ['slug']
+    prepopulated_fields = {'slug': ('title',)}
+    # readonly_fields = ['slug']
+
+
+@admin.register(Training_chapters)
+class Training_chaptersAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',)}
+
+@admin.register(Training_parts)
+class Training_partsAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',)}
 
 admin.site.register(Video)
-admin.site.register(Course_structures)
 admin.site.register(Site_sections)
 # admin.site.register(Technicians_cources)

@@ -1,0 +1,39 @@
+{% extends 'myapp/base.html' %}
+<!-- {% load static %}   -->
+{% load embed_video_tags %}
+
+{% block content %}
+
+<h1 class="test"> {{ cources.title }}</h1>
+<div class="container">
+    <div class="row">
+        {% for part in parts %}
+        {% if part.chapter == cources.title %}
+        {% if part.content_type == 'video' %}
+        {% video part.video 'small' %}
+        {% else %}
+        <div class="col">
+            <div class="img-box">
+                <img src="{{ part.image.url }}" class="img-thumbnail" alt="{{ part.title }}">
+            </div>
+            <p>{{ part.description }}</p>
+                <div class="d-grid gap-2 col-11 mx-auto">
+                    <button class="btn btn-primary" type="button">{{ part.title }}</button>
+                </div>
+            </a>
+        </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
+
+
+<!-- <div class="mt-5 px-5">
+
+    {% for i in videos %}
+    {% video i.video 'small' %}
+    {% endfor %}
+</div> -->

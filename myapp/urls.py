@@ -14,5 +14,7 @@ urlpatterns = [
     path('', views.get_site_sections, name = 'index'),
     path('technicians/', views.get_technician_content, name = 'techcont'),
     path('technicians/tt-level/', views.get_tt_level_content, name = 'tt-level'),
-
+    # path('part/<slug:post_slug>/', views.show_post, name = 'post'),                          #Это пример как мы используем слаг
+    path('technicians/<slug:part_slug>/', views.get_education_part, name = 'part'),                  
+    path('test/<slug:content_slug>/', views.get_training_content, name = 'content'),   
 ]

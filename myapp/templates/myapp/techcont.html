@@ -7,19 +7,26 @@
 <div class="container">
     <div class="row">
         {% for cource in cources %}
+        {% if cource.job_title == 'technicians' and cource.is_published %}
         <div class="col">
             <div class="img-box">
                 <img src="{{ cource.image.url }}" class="img-thumbnail" alt="{{ cource.title }}">
             </div>
             <p>{{ cource.description }}</p>
-            <a href="http://127.0.0.1:8000/technicians/tt-level/">
+            <a href="{{ cource.get_absolute_url }}">
                 <div class="d-grid gap-2 col-11 mx-auto">
                     <button class="btn btn-primary" type="button">{{ cource.button_name }}</button>
                 </div>
             </a>
         </div>
-            {%  endfor %}
+            {% endif %}
+            {% endfor %}
     </div>
 </div>
 
 {% endblock content %}
+
+
+
+
+<!-- <a href="http://127.0.0.1:8000/technicians/tt-level/"> -->

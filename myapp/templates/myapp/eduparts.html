@@ -1,0 +1,33 @@
+{% extends 'myapp/base.html' %}
+<!-- {% load static %}   -->
+
+{% block content %}
+
+<h1 class="test"> {{ cources.title }}</h1>
+<div class="container">
+    <div class="row">
+        {% for part in parts %}
+        {% if part.level == cources.title %}
+        <div class="col">
+            <div class="img-box">
+                <img src="{{ part.image.url }}" class="img-thumbnail" alt="{{ part.title }}">
+            </div>
+            <p>{{ part.description }}</p>
+            <a href="{{ part.get_absolute_url }}">
+                <div class="d-grid gap-2 col-11 mx-auto">
+                    <button class="btn btn-primary" type="button">{{ part.title }}</button>
+                </div>
+            </a>
+        </div>
+            {% endif %}
+            {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+
+<!-- {% if cource.job_title == 'technicians' and cource.is_published %}
+{% endif %} -->
