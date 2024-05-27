@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters
+from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404
 from .services import open_file
@@ -60,19 +60,33 @@ def pdf_view(request):
 
 
 def get_site_sections(request):
-    # w = Site_sections.objects.all()[0]
+    sections = Site_sections.objects.all()
+    # section_slug = get_object_or_404(Technicians_cources, slug=part_slug)
+    # section_slug = Technicians_cources.objects.all()
+    data = {
+        'sections': sections,
+        # 'section_slug': section_slug,
+    }
     # print(w.image.url)
     # print(Technicians_cources.get_absolute_url)
-    return render(request, 'myapp/index.html', {'sections': Site_sections.objects.all(), 'videos':Videos.objects.all()  })
+    # return render(request, 'myapp/index.html', {'sections': Site_sections.objects.all(), 'videos':Videos.objects.all()  })
+    return render(request, 'myapp/index.html', data)
 
 
-def get_technician_content(request):
+def get_technician_content(request, part_slug):             ## переименовать метод т.к. он не только для механиков
     # chapters = Training_chapters.objects.filter()
     cources = Technicians_cources.objects.all()
+    slug_area = get_object_or_404(Site_sections, slug=part_slug)
+    certifications= Certification_appointment.objects.all()
+
     data = {
         'cources': cources,
+        'slug_area': slug_area,
+        'certifications': certifications
         # 'chapters': chapters
     }
+    print(data)
+    # print(w.image.url)
     # print(Technicians_cources.get_absolute_url)
     return render(request, 'myapp/techcont.html', data)
     # return render(request, 'myapp/techcont.html', {'cources': Technicians_cources.objects.all()})
@@ -106,13 +120,13 @@ def get_training_content(request, content_slug):
         'parts': parts,
         'cources': cources,
     }
-    print(content_slug)
-    print(Training_chapters.objects.all())
-    p = Training_chapters.objects.all()[0]
-    c = Training_parts.objects.all()[0]
-    print(p.chapter)
-    print(p.chapter == c.title)
-    print(c.title)
+    # print(content_slug)
+    # print(Training_chapters.objects.all())
+    # p = Training_chapters.objects.all()[0]
+    # c = Training_parts.objects.all()[0]
+    # print(p.chapter)
+    # print(p.chapter == c.title)
+    # print(c.title)
 
     return render(request, 'myapp/educontent.html', data)
     # return render(request, 'myapp/eduparts.html', {'parts': Training_parts.objects.all()})
@@ -120,8 +134,6 @@ def get_training_content(request, content_slug):
 
 def get_tt_level_content(request):
     return render(request, 'myapp/tt_level.html', {'cources': Technicians_cources.objects.all(), 'videos':Videos.objects.all()})
-
-
 
 
 

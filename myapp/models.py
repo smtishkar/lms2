@@ -48,10 +48,21 @@ class Site_sections(models.Model):
     description = models.TextField()
     button_name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='static/myapp/image/')
+    slug = models.SlugField(max_length=255, db_index=True)
+    is_published = models.BooleanField(default=0)
 
     def __str__(self):
         return self.title
+        
+    def get_absolute_url(self):
+        return reverse('part', kwargs={'part_slug': self.slug})          ## post это имя маршрута в urls
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.title))
+        # self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
     
+
 class Technicians_cources(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
@@ -120,4 +131,29 @@ class Training_chapters(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(translate_to_eng(self.title))
+        super().save(*args, **kwargs)
+
+
+class Certification_appointment(models.Model):
+    # title = models.CharField(max_length=250)
+    job_title = models.CharField(max_length=250)
+    certification_date = models.DateField()
+    certification_time = models.TimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    # slug = models.SlugField(max_length=255, unique=True, db_index=True)
+    is_published = models.BooleanField(default=0)
+    dlr=models.CharField(max_length=250,blank=True)
+    employee_id = models.CharField(max_length=250, blank=True)
+    employee_name = models.CharField(max_length=250, blank=True)
+    employee_last_name = models.CharField(max_length=250, blank=True)
+
+    
+    def __str__(self):
+        return self.job_title
+
+    def get_absolute_url(self):
+        return reverse('content', kwargs={'content_slug': self.slug})          ## post это имя маршрута в urls
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.job_title))
         super().save(*args, **kwargs)

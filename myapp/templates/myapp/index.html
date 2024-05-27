@@ -20,7 +20,7 @@
                 <img src="{{ section.image }}" class="img-thumbnail" alt="{{ section.title }}">
             </div>
             <p>{{ section.description }}</p>
-            <a href="http://127.0.0.1:8000/technicians">
+            <a href="{% url 'section' section.slug %}">
                 <div class="d-grid gap-2 col-11 mx-auto">
                     <button class="btn btn-primary" type="button">{{ section.button_name }}</button>
                 </div>
@@ -31,3 +31,7 @@
 </div>
 
 {% endblock content %}
+
+
+
+

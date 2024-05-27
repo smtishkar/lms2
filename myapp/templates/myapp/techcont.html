@@ -3,11 +3,13 @@
 
 {% block content %}
 
-<h1 class="test">Обучение для механиков</h1>
+<h1 class="test">Вы находитесь в разделе "{{ slug_area.button_name }}"</h1>
+<p> {{ cource.slug_area}} </p>
 <div class="container">
     <div class="row">
+        {% if slug_area.slug == 'technician' or slug_area.slug == 'service_advisor' %}        
         {% for cource in cources %}
-        {% if cource.job_title == 'technicians' and cource.is_published %}
+        {% if cource.job_title == slug_area.title and cource.is_published %}
         <div class="col">
             <div class="img-box">
                 <img src="{{ cource.image.url }}" class="img-thumbnail" alt="{{ cource.title }}">
@@ -21,6 +23,18 @@
         </div>
             {% endif %}
             {% endfor %}
+        {% elif slug_area.slug == 'certification_appointment' %}
+        {% for certification in certifications %}
+            <div class="col">
+                <p>{{ certification.job_title}}</p>
+                <a href="{{ cource.get_absolute_url }}">
+                    <div class="d-grid gap-2 col-11 mx-auto">
+                        <button class="btn btn-primary" type="button">{{ certification.certification_date }} {{ certification.certification_time }}</button>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+        {% endif %}
     </div>
 </div>
 
