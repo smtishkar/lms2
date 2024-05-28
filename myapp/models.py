@@ -142,10 +142,11 @@ class Certification_appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # slug = models.SlugField(max_length=255, unique=True, db_index=True)
     is_published = models.BooleanField(default=0)
-    dlr=models.CharField(max_length=250,blank=True)
-    employee_id = models.CharField(max_length=250, blank=True)
-    employee_name = models.CharField(max_length=250, blank=True)
-    employee_last_name = models.CharField(max_length=250, blank=True)
+    dlr=models.CharField(max_length=250,null=True)
+    employee_id = models.CharField(max_length=250, null=True)
+    employee_name = models.CharField(max_length=250, null=True)
+    employee_last_name = models.CharField(max_length=250, null=True)
+    is_available = models.BooleanField(default=1)
 
     
     def __str__(self):

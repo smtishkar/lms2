@@ -25,6 +25,7 @@
             {% endfor %}
         {% elif slug_area.slug == 'certification_appointment' %}
         {% for certification in certifications %}
+            {% if certification.is_published and certification.is_available %}     
             <div class="col">
                 <p>{{ certification.job_title}}</p>
                 <a href="{{ cource.get_absolute_url }}">
@@ -33,6 +34,7 @@
                     </div>
                 </a>
             </div>
+            {% endif %}
         {% endfor %}
         {% endif %}
     </div>
