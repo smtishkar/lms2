@@ -28,7 +28,7 @@
             {% if certification.is_published and certification.is_available %}     
             <div class="col">
                 <p>{{ certification.job_title}}</p>
-                <a href="{{ cource.get_absolute_url }}">
+                <a href="{% url 'cert_appointment' %}">
                     <div class="d-grid gap-2 col-11 mx-auto">
                         <button class="btn btn-primary" type="button">{{ certification.certification_date }} {{ certification.certification_time }}</button>
                     </div>
@@ -46,3 +46,4 @@
 
 
 <!-- <a href="http://127.0.0.1:8000/technicians/tt-level/"> -->
+    <!-- <a href="{% url 'cert_appointment' %}"> -->

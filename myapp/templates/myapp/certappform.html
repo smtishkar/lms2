@@ -1,0 +1,14 @@
+{% extends 'myapp/base.html' %}
+<!-- {% load static %}   -->
+
+
+{% block content %}
+
+<h1 class="test"> {{ cources.title }}</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p><button type="submit">Отправить</button></p>
+</form>
+
+{% endblock content %}

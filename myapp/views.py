@@ -1,4 +1,6 @@
 from django.shortcuts import render
+
+from myapp.forms import CertificationAppointmentForm
 from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404
@@ -135,6 +137,26 @@ def get_training_content(request, content_slug):
 def get_tt_level_content(request):
     return render(request, 'myapp/tt_level.html', {'cources': Technicians_cources.objects.all(), 'videos':Videos.objects.all()})
 
+
+
+def make_cert_appointment(request):
+    # cert_data = Certification_appointment.objects.all()
+    if request.method == 'POST':
+        form = CertificationAppointmentForm(request.POST)
+        if form.is_valid():
+            try:
+                Certification_appointment.objects.create(**form.cleaned_data)
+            except:
+                form.add_error(None, 'Что-то пошло не так')
+    else:
+        form = CertificationAppointmentForm()
+
+    data = {
+        'form': form,
+        # 'cert_data': cert_data
+    }
+
+    return render(request, 'myapp/certappform.html', data)
 
 
 # def embed_video(request):
