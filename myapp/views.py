@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from myapp.forms import CertificationAppointmentForm
 from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment
@@ -139,15 +139,16 @@ def get_tt_level_content(request):
 
 
 
-def make_cert_appointment(request):
-    # cert_data = Certification_appointment.objects.all()
+def make_cert_appointment(request,app_id):
+    appointment = Certification_appointment.objects.get(pk=app_id)
     if request.method == 'POST':
-        form = CertificationAppointmentForm(request.POST)
+        form = CertificationAppointmentForm(request.POST, instance=appointment)
         if form.is_valid():
-            try:
-                Certification_appointment.objects.create(**form.cleaned_data)
-            except:
-                form.add_error(None, 'Что-то пошло не так')
+            # appointment.job_title = request.POST.get('job_title')
+            appointment.save()
+            appointment.is_available = False
+            appointment.save()
+            return redirect('/', pk=appointment.pk)
     else:
         form = CertificationAppointmentForm()
 

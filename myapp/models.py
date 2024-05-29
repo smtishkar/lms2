@@ -153,7 +153,7 @@ class Certification_appointment(models.Model):
         return self.job_title
 
     def get_absolute_url(self):
-        return reverse('content', kwargs={'content_slug': self.slug})          ## post это имя маршрута в urls
+        return reverse('appointment', kwargs={'app_id': self.slug})          ## post это имя маршрута в urls
 
     def save(self, *args, **kwargs):
         self.slug = slugify(translate_to_eng(self.job_title))
