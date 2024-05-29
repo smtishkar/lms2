@@ -146,6 +146,7 @@ class Certification_appointment(models.Model):
     employee_id = models.CharField(max_length=250, null=True)
     employee_name = models.CharField(max_length=250, null=True)
     employee_last_name = models.CharField(max_length=250, null=True)
+    time_update = models.DateTimeField(auto_now=True)
     is_available = models.BooleanField(default=1)
 
     
@@ -158,3 +159,10 @@ class Certification_appointment(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(translate_to_eng(self.job_title))
         super().save(*args, **kwargs)
+
+    class Meta:
+        # ordering = ['-time_create']
+        ordering = ['job_title', 'certification_date', 'certification_time']
+        # indexes = [
+        #     models.Index(fields=['-time_create'])
+        # ]
