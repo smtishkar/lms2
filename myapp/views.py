@@ -6,6 +6,7 @@ from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404
 from .services import open_file
 from django.http import FileResponse, Http404
+from django.contrib import messages
 
 # Create your views here.
 
@@ -148,16 +149,20 @@ def make_cert_appointment(request,app_id):
             appointment.save()
             appointment.is_available = False
             appointment.save()
-            return redirect('/', pk=appointment.pk)
+            messages.success(request, 'some text')
+            # return redirect('/', pk=appointment.pk)
     else:
         form = CertificationAppointmentForm()
+        # messages.error(request, 'Что-то пошло не так!!!')
 
     data = {
         'form': form,
+        # 'messages': messages
         # 'cert_data': cert_data
     }
 
     return render(request, 'myapp/certappform.html', data)
+
 
 
 # def embed_video(request):
