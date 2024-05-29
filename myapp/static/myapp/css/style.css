@@ -10,12 +10,19 @@
     display: flex;
 }
 
+
+.job-title-text {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
 .row{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 2fr;
     gap: 30px;
-    row-gap: 90px;
+    row-gap: 40px;
     justify-items: center;
 }
 
@@ -28,6 +35,22 @@
     display: flex;
     width: 400px;
     flex-direction: column;
+}
+
+.col-cert{
+    gap: 10px;
+    display: flex;
+    width: 400px;
+    height: 150px;
+    flex-direction: column;
+    border: 1px solid;
+    justify-content: center;
+    border-radius: 25px; 
+}
+
+.table-form {
+    margin: 10px;
+    gap: 10px;
 }
 /* 
 .img-box{

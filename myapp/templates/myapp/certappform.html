@@ -11,8 +11,12 @@
 
 <form action="" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <p><button type="submit">Отправить</button></p>
+    
+    <table class="table-form">
+        
+        {{ form.as_table }}
+        </table>
+    <p><button type="submit" class="btn btn-primary">Зарегистрировать</button></p>
 </form>
 
 {% endblock content %}

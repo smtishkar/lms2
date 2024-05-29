@@ -1,5 +1,5 @@
 from django import forms
-from .models import Certification_appointment
+from .models import Certification_appointment,Dealers,Edu_programs
 
 
 class CertificationAppointmentForm(forms.ModelForm):
@@ -10,12 +10,18 @@ class CertificationAppointmentForm(forms.ModelForm):
     # employee_last_name = forms.CharField(label='Фамилия сотрудника', max_length=100)
     # category = forms.ModelChoiceField(label='Выберите категорию', queryset=Category.objects.all())        ## Оставил как пример списка | empty_label
 
+    dlr = forms.ModelChoiceField(queryset=Dealers.objects.all(), empty_label='Дилер не выбран', label='Дилерский центр')
+    employee_id = forms.CharField(label='ID сотрудника', max_length=100)
+    level = forms.ModelChoiceField(queryset=Edu_programs.objects.all(),empty_label='Уровень не выбран', label='Уровень сертификации')
     class Meta:
         model = Certification_appointment
         # fields = ['job_title', 'certification_date', 'certification_time', 'dlr', 'employee_id', 'employee_name', 'employee_last_name']
-        fields = ['dlr', 'employee_id', 'employee_name', 'employee_last_name']
-        labels = {'dlr': 'Дилер',
+        fields = ['dlr', 'employee_id', 'employee_name', 'employee_last_name', 'level']
+        labels = {'employee_id': 'ID сотрудника',
+                  'employee_name': 'Имя сотрудника',
+                  'employee_last_name':'Фамилия сотрудника'
                   }
+
         
 
 

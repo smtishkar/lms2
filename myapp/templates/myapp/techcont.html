@@ -26,13 +26,20 @@
         {% elif slug_area.slug == 'certification_appointment' %}
         {% for certification in certifications %}
             {% if certification.is_published and certification.is_available %}     
-            <div class="col">
-                <p>{{ certification.job_title }}</p>
-                <a href="{% url 'cert_appointment' certification.id %}">
-                    <div class="d-grid gap-2 col-11 mx-auto">
-                        <button class="btn btn-primary" type="button">{{ certification.certification_date }} {{ certification.certification_time }}</button>
-                    </div>
-                </a>
+            <div class="col-cert">
+                <div class="job-title-text">
+                    <h4>
+                        {{ certification.job_title }}
+
+                    </h4>
+                </div>
+                <div class="but-cert-app">
+                    <a href="{% url 'cert_appointment' certification.id %}">
+                        <div class="d-grid gap-2 col-11 mx-auto">
+                            <button class="btn btn-primary" type="button">{{ certification.certification_date }} {{ certification.certification_time }}</button>
+                        </div>
+                    </a>
+                </div>
             </div>
             {% endif %}
         {% endfor %}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Video, Site_sections, Technicians_cources, Training_chapters, Training_parts, Certification_appointment
+from .models import Video, Site_sections, Technicians_cources, Training_chapters, Training_parts, Certification_appointment, Job_titles, Dealers, Edu_programs
 
 # Register your models here.
 
@@ -32,6 +32,10 @@ class Training_partsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Certification_appointment, MyModelAdmin)
+admin.site.register(Job_titles, MyModelAdmin)
+admin.site.register(Dealers, MyModelAdmin)
+admin.site.register(Edu_programs, MyModelAdmin)
+
 
 
 admin.site.register(Video)

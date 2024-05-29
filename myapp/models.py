@@ -142,10 +142,11 @@ class Certification_appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # slug = models.SlugField(max_length=255, unique=True, db_index=True)
     is_published = models.BooleanField(default=0)
-    dlr=models.CharField(max_length=250,null=True)
-    employee_id = models.CharField(max_length=250, null=True)
-    employee_name = models.CharField(max_length=250, null=True)
-    employee_last_name = models.CharField(max_length=250, null=True)
+    dlr=models.CharField(max_length=250,null=True, blank=True)
+    employee_id = models.CharField(max_length=250, null=True, blank=True)
+    employee_name = models.CharField(max_length=250, null=True, blank=True)
+    employee_last_name = models.CharField(max_length=250, null=True, blank=True)
+    level = models.CharField(max_length=250,null=True, blank=True)
     time_update = models.DateTimeField(auto_now=True)
     is_available = models.BooleanField(default=1)
 
@@ -166,3 +167,25 @@ class Certification_appointment(models.Model):
         # indexes = [
         #     models.Index(fields=['-time_create'])
         # ]
+
+class Job_titles(models.Model):
+    title = models.CharField(max_length=250)
+    is_published = models.BooleanField(default=1)
+
+    def __str__(self):
+        return self.title
+    
+class Dealers(models.Model):
+    title = models.CharField(max_length=250)
+    is_published = models.BooleanField(default=1)
+
+    def __str__(self):
+        return self.title
+    
+
+class Edu_programs(models.Model):
+    title = models.CharField(max_length=250)
+    is_published = models.BooleanField(default=1)
+
+    def __str__(self):
+        return self.title
