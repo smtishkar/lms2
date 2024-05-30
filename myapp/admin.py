@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Video, Site_sections, Technicians_cources, Training_chapters, Training_parts, Certification_appointment, Job_titles, Dealers, Edu_programs
+from django.contrib import messages
 
 # Register your models here.
 
@@ -12,32 +13,193 @@ class MyModelAdmin(AdminVideoMixin, admin.ModelAdmin):
 admin.site.register(Videos, MyModelAdmin)
 
 
+
 @admin.register(Site_sections)
 class Site_sectionsAdmin(admin.ModelAdmin):
+    fields = ['title', 'slug', 'description', 'button_name', 'image', 'is_published']
     prepopulated_fields = {'slug': ('title',)}
+    list_display = ('id', 'title', 'slug', 'button_name', 'is_published')
+    list_display_links = ('title', )    
+    ordering = ['id']
+    list_editable = ('is_published', )
+    list_per_page = 10
+    actions = ['set_published', 'set_draft']
+    search_fields = ['title']
+
+    @admin.action(description="Опубликовать выбранные записи")
+    def set_published(self, request, queryset):
+        count = queryset.update(is_published=Site_sections.Status.PUBLISHED)
+        self.message_user(request, f"Изменено {count} записей.")
+
+    @admin.action(description="Снять с публикации выбранные записи")
+    def set_draft(self, request, queryset):
+        count = queryset.update(is_published=Site_sections.Status.DRAFT)
+        self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
+
 
 @admin.register(Technicians_cources)
 class Technicians_courcesAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('title',)}
     # readonly_fields = ['slug']
+
+    fields = ['title', 'slug', 'description', 'button_name', 'image', 'job_title', 'is_published']
+    prepopulated_fields = {'slug': ('title',)}
+    list_display = ('id', 'title', 'slug', 'button_name', 'job_title', 'is_published')
+    list_display_links = ('title', )    
+    ordering = ['id']
+    list_editable = ('is_published', )
+    list_per_page = 10
+    actions = ['set_published', 'set_draft']
+    search_fields = ['title']
+
+    @admin.action(description="Опубликовать выбранные записи")
+    def set_published(self, request, queryset):
+        count = queryset.update(is_published=Technicians_cources.Status.PUBLISHED)
+        self.message_user(request, f"Изменено {count} записей.")
+
+    @admin.action(description="Снять с публикации выбранные записи")
+    def set_draft(self, request, queryset):
+        count = queryset.update(is_published=Technicians_cources.Status.DRAFT)
+        self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
+
+
+
+@admin.register(Training_parts)
+class Training_partsAdmin(admin.ModelAdmin):
+    fields = ['title', 'slug', 'description', 'area', 'level', 'image', 'is_published']
+    prepopulated_fields = {'slug': ('title',)}
+    list_display = ('id', 'title', 'slug', 'area', 'level', 'is_published')
+    list_display_links = ('title', )    
+    ordering = ['id']
+    list_editable = ('is_published', )
+    list_per_page = 10
+    actions = ['set_published', 'set_draft']
+    search_fields = ['title']
+
+    @admin.action(description="Опубликовать выбранные записи")
+    def set_published(self, request, queryset):
+        count = queryset.update(is_published=Training_parts.Status.PUBLISHED)
+        self.message_user(request, f"Изменено {count} записей.")
+
+    @admin.action(description="Снять с публикации выбранные записи")
+    def set_draft(self, request, queryset):
+        count = queryset.update(is_published=Training_parts.Status.DRAFT)
+        self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
+
 
 
 @admin.register(Training_chapters)
 class Training_chaptersAdmin(admin.ModelAdmin):
+    fields = ['title', 'slug', 'description', 'area', 'level', 'chapter', 'image', 'section', 'content_type', 'video', 'is_published']
     prepopulated_fields = {'slug': ('title',)}
+    list_display = ('id', 'title', 'slug', 'area', 'level', 'section','chapter', 'content_type', 'is_published')
+    list_display_links = ('title', )    
+    ordering = ['id']
+    list_editable = ('is_published', )
+    list_per_page = 10
+    actions = ['set_published', 'set_draft']
+    search_fields = ['title']
 
-@admin.register(Training_parts)
-class Training_partsAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('title',)}
+    @admin.action(description="Опубликовать выбранные записи")
+    def set_published(self, request, queryset):
+        count = queryset.update(is_published=Training_chapters.Status.PUBLISHED)
+        self.message_user(request, f"Изменено {count} записей.")
+
+    @admin.action(description="Снять с публикации выбранные записи")
+    def set_draft(self, request, queryset):
+        count = queryset.update(is_published=Training_chapters.Status.DRAFT)
+        self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
 
 
-admin.site.register(Certification_appointment, MyModelAdmin)
-admin.site.register(Job_titles, MyModelAdmin)
-admin.site.register(Dealers, MyModelAdmin)
-admin.site.register(Edu_programs, MyModelAdmin)
+@admin.register(Certification_appointment)
+class Certification_appointmentAdmin(admin.ModelAdmin):
+    fields = ['job_title', 'certification_date', 'certification_time', 'created_at', 'is_published', 'dlr', 'employee_id', 'employee_name', 'employee_last_name', 'level', 'time_update', 'is_available']
+    list_display = ('id', 'job_title', 'certification_date', 'certification_time', 'dlr', 'employee_id','employee_name', 'employee_last_name', 'level', 'time_update','is_available', 'is_published')
+    list_display_links = ('job_title', )    
+    ordering = ['id']
+    list_editable = ('is_published', )
+    list_per_page = 10
+    actions = ['set_published', 'set_draft']
+    search_fields = ['job_title']
 
+    @admin.action(description="Опубликовать выбранные записи")
+    def set_published(self, request, queryset):
+        count = queryset.update(is_published=Certification_appointment.Status.PUBLISHED)
+        self.message_user(request, f"Изменено {count} записей.")
+
+    @admin.action(description="Снять с публикации выбранные записи")
+    def set_draft(self, request, queryset):
+        count = queryset.update(is_published=Certification_appointment.Status.DRAFT)
+        self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
+
+
+
+
+@admin.register(Job_titles)
+class Job_titlesAdmin(admin.ModelAdmin):
+    fields = ['title', 'is_published']
+    list_display = ('id', 'title', 'is_published')
+    list_display_links = ('title', )    
+    ordering = ['id']
+    list_editable = ('is_published', )
+    list_per_page = 10
+    actions = ['set_published', 'set_draft']
+    search_fields = ['title']
+
+    @admin.action(description="Опубликовать выбранные записи")
+    def set_published(self, request, queryset):
+        count = queryset.update(is_published=Job_titles.Status.PUBLISHED)
+        self.message_user(request, f"Изменено {count} записей.")
+
+    @admin.action(description="Снять с публикации выбранные записи")
+    def set_draft(self, request, queryset):
+        count = queryset.update(is_published=Job_titles.Status.DRAFT)
+        self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
+
+
+
+@admin.register(Dealers)
+class DealersAdmin(admin.ModelAdmin):
+    fields = ['title', 'is_published']
+    list_display = ('id', 'title', 'is_published')
+    list_display_links = ('title', )    
+    ordering = ['id']
+    list_editable = ('is_published', )
+    list_per_page = 10
+    actions = ['set_published', 'set_draft']
+    search_fields = ['title']
+
+    @admin.action(description="Опубликовать выбранные записи")
+    def set_published(self, request, queryset):
+        count = queryset.update(is_published=Dealers.Status.PUBLISHED)
+        self.message_user(request, f"Изменено {count} записей.")
+
+    @admin.action(description="Снять с публикации выбранные записи")
+    def set_draft(self, request, queryset):
+        count = queryset.update(is_published=Dealers.Status.DRAFT)
+        self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
+
+
+
+@admin.register(Edu_programs)
+class Edu_programsAdmin(admin.ModelAdmin):
+    fields = ['title', 'is_published']
+    list_display = ('id', 'title', 'is_published')
+    list_display_links = ('title', )    
+    ordering = ['id']
+    list_editable = ('is_published', )
+    list_per_page = 10
+    actions = ['set_published', 'set_draft']
+    search_fields = ['title']
+
+    @admin.action(description="Опубликовать выбранные записи")
+    def set_published(self, request, queryset):
+        count = queryset.update(is_published=Edu_programs.Status.PUBLISHED)
+        self.message_user(request, f"Изменено {count} записей.")
+
+    @admin.action(description="Снять с публикации выбранные записи")
+    def set_draft(self, request, queryset):
+        count = queryset.update(is_published=Edu_programs.Status.DRAFT)
+        self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
 
 
 admin.site.register(Video)
-# admin.site.register(Site_sections)
-# admin.site.register(Technicians_cources)

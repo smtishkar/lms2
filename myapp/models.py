@@ -44,12 +44,19 @@ class Video(models.Model):
 
 
 class Site_sections(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    button_name = models.CharField(max_length=100)
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
+
+    title = models.CharField(max_length=100, verbose_name='Заголовок')
+    description = models.TextField(verbose_name='Описание')
+    button_name = models.CharField(max_length=100, verbose_name='Название кнопки')
     image = models.ImageField(upload_to='static/myapp/image/')
-    slug = models.SlugField(max_length=255, db_index=True)
-    is_published = models.BooleanField(default=0)
+    slug = models.SlugField(max_length=255, db_index=True, verbose_name="Slug")
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
 
     def __str__(self):
         return self.title
@@ -63,7 +70,20 @@ class Site_sections(models.Model):
         super().save(*args, **kwargs)
     
 
+    class Meta:
+        verbose_name = "1. Разделы сайта"
+        verbose_name_plural = "1. Разделы сайта"
+
+
+
+
 class Technicians_cources(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
+
     title = models.CharField(max_length=100)
     description = models.TextField()
     button_name = models.CharField(max_length=100)
@@ -71,7 +91,13 @@ class Technicians_cources(models.Model):
     image = models.ImageField(upload_to='images/')
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     job_title = models.CharField(max_length=250)
-    is_published = models.BooleanField(default=0)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
+
+    class Meta:
+        verbose_name = "2. Программы обучения"
+        verbose_name_plural = "2. Программы обучения"
+
 
     def __str__(self):
         return self.title
@@ -88,6 +114,11 @@ class Technicians_cources(models.Model):
 
 
 class Training_parts(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
     title = models.CharField(max_length=250)                        ## это и есть chapter поэтому поле chapte не нужно
     area = models.CharField(max_length=250)
     level = models.CharField(max_length=250)
@@ -95,8 +126,12 @@ class Training_parts(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to='images/')
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    is_published = models.BooleanField(default=0)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
 
+    class Meta:
+        verbose_name = "3. Главы программы обучения"
+        verbose_name_plural = "3. Главы программы обучения"
 
     def __str__(self):
         return self.title
@@ -111,6 +146,12 @@ class Training_parts(models.Model):
 
 
 class Training_chapters(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
+
     title = models.CharField(max_length=250)
     area = models.CharField(max_length=250)
     level = models.CharField(max_length=250)
@@ -121,7 +162,12 @@ class Training_chapters(models.Model):
     content_type = models.CharField(max_length=250)
     video = EmbedVideoField(blank=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    is_published = models.BooleanField(default=0)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
+
+    class Meta:
+        verbose_name = "4. Разделы глав обучения"
+        verbose_name_plural = "4. Разделы глав обучения"
 
     def __str__(self):
         return self.title
@@ -135,20 +181,26 @@ class Training_chapters(models.Model):
 
 
 class Certification_appointment(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
     # title = models.CharField(max_length=250)
     job_title = models.CharField(max_length=250)
     certification_date = models.DateField()
     certification_time = models.TimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     # slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    is_published = models.BooleanField(default=0)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
     dlr=models.CharField(max_length=250,null=True, blank=True)
     employee_id = models.CharField(max_length=250, null=True, blank=True)
     employee_name = models.CharField(max_length=250, null=True, blank=True)
     employee_last_name = models.CharField(max_length=250, null=True, blank=True)
     level = models.CharField(max_length=250,null=True, blank=True)
     time_update = models.DateTimeField(auto_now=True)
-    is_available = models.BooleanField(default=1)
+    is_available = models.BooleanField(default=0)
 
     
     def __str__(self):
@@ -162,6 +214,8 @@ class Certification_appointment(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
+        verbose_name = "5. Запись на сертификацию"
+        verbose_name_plural = "5. Запись на сертификацию"
         # ordering = ['-time_create']
         ordering = ['job_title', 'certification_date', 'certification_time']
         # indexes = [
@@ -169,23 +223,75 @@ class Certification_appointment(models.Model):
         # ]
 
 class Job_titles(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
     title = models.CharField(max_length=250)
-    is_published = models.BooleanField(default=1)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse('appointment', kwargs={'app_id': self.slug})          ## Наверное тут надо что-то поменять
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.title))
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "6. Список должностей"
+        verbose_name_plural = "6. Список должностей"
+
     
 class Dealers(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
     title = models.CharField(max_length=250)
-    is_published = models.BooleanField(default=1)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
 
     def __str__(self):
         return self.title
     
+    def get_absolute_url(self):
+        return reverse('appointment', kwargs={'app_id': self.slug})          ## Наверное тут надо что-то поменять
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.title))
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name = "7. Список дилеров"
+        verbose_name_plural = "7. Список дилеров"
+
 
 class Edu_programs(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
     title = models.CharField(max_length=250)
-    is_published = models.BooleanField(default=1)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse('appointment', kwargs={'app_id': self.slug})          ## Наверное тут надо что-то поменять
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.title))
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "8. Список всех программ обучения"
+        verbose_name_plural = "8. Список всех программ обучения"
