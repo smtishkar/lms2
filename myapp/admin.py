@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Video, Site_sections, Technicians_cources, Training_chapters, Training_parts, Certification_appointment, Job_titles, Dealers, Edu_programs
+from .models import Video, Site_sections, Technicians_cources, Training_chapters, Training_parts, Certification_appointment, Job_titles, Dealers, Edu_programs, Training_shedule, Training_participants
 from django.contrib import messages
 
 # Register your models here.
@@ -112,7 +112,7 @@ class Training_chaptersAdmin(admin.ModelAdmin):
 
 @admin.register(Certification_appointment)
 class Certification_appointmentAdmin(admin.ModelAdmin):
-    fields = ['job_title', 'certification_date', 'certification_time', 'created_at', 'is_published', 'dlr', 'employee_id', 'employee_name', 'employee_last_name', 'level', 'time_update', 'is_available']
+    fields = ['job_title', 'certification_date', 'certification_time', 'is_published', 'dlr', 'employee_id', 'employee_name', 'employee_last_name', 'level', 'is_available']
     list_display = ('id', 'job_title', 'certification_date', 'certification_time', 'dlr', 'employee_id','employee_name', 'employee_last_name', 'level', 'time_update','is_available', 'is_published')
     list_display_links = ('job_title', )    
     ordering = ['id']
@@ -130,6 +130,56 @@ class Certification_appointmentAdmin(admin.ModelAdmin):
     def set_draft(self, request, queryset):
         count = queryset.update(is_published=Certification_appointment.Status.DRAFT)
         self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
+
+
+
+@admin.register(Training_shedule)
+class Training_sheduleAdmin(admin.ModelAdmin):
+    fields = ['training_name', 'training_id', 'training_start_date', 'training_end_date', 'is_published', 'actual_num_participants','max_participants', 'is_available']
+    list_display = ('id', 'training_name', 'training_id', 'training_start_date', 'training_end_date', 'actual_num_participants', 'max_participants', 'is_available', 'is_published')
+    # fields = ['trainin_name', 'training_start_date', 'training_end_date', 'is_published', 'max_participants', 'dlr', 'employee_id', 'employee_name', 'employee_last_name', 'is_available']
+    # list_display = ('id', 'trainin_name', 'training_start_date', 'training_end_date', 'max_participants', 'dlr', 'employee_id','employee_name', 'employee_last_name', 'time_update','is_available', 'is_published')
+    list_display_links = ('training_name', )    
+    ordering = ['id']
+    list_editable = ('is_published', )
+    list_per_page = 10
+    actions = ['set_published', 'set_draft']
+    search_fields = ['training_name']
+
+    @admin.action(description="Опубликовать выбранные записи")
+    def set_published(self, request, queryset):
+        count = queryset.update(is_published=Training_shedule.Status.PUBLISHED)
+        self.message_user(request, f"Изменено {count} записей.")
+
+    @admin.action(description="Снять с публикации выбранные записи")
+    def set_draft(self, request, queryset):
+        count = queryset.update(is_published=Training_shedule.Status.DRAFT)
+        self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
+
+
+
+@admin.register(Training_participants)
+class Training_participantsAdmin(admin.ModelAdmin):
+    fields = ['training_name', 'training_start_date', 'training_end_date', 'dlr', 'employee_id', 'employee_name', 'employee_last_name', 'training_id']
+    list_display = ('id', 'training_name', 'training_start_date', 'training_end_date', 'dlr', 'employee_id', 'employee_name', 'employee_last_name', 'training_id')
+    # fields = ['trainin_name', 'training_start_date', 'training_end_date', 'is_published', 'max_participants', 'dlr', 'employee_id', 'employee_name', 'employee_last_name', 'is_available']
+    # list_display = ('id', 'trainin_name', 'training_start_date', 'training_end_date', 'max_participants', 'dlr', 'employee_id','employee_name', 'employee_last_name', 'time_update','is_available', 'is_published')
+    list_display_links = ('training_name', )    
+    ordering = ['id']
+    # list_editable = ('is_published', )
+    list_per_page = 10
+    # actions = ['set_published', 'set_draft']
+    search_fields = ['training_name']
+
+    # @admin.action(description="Опубликовать выбранные записи")
+    # def set_published(self, request, queryset):
+    #     count = queryset.update(is_published=Training_shedule.Status.PUBLISHED)
+    #     self.message_user(request, f"Изменено {count} записей.")
+
+    # @admin.action(description="Снять с публикации выбранные записи")
+    # def set_draft(self, request, queryset):
+    #     count = queryset.update(is_published=Training_shedule.Status.DRAFT)
+    #     self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
 
 
 

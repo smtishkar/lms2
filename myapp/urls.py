@@ -10,6 +10,7 @@ urlpatterns = [
     path('test/<slug:content_slug>/', views.get_training_content, name = 'content'),   
     # path('certification_appointment/app/<int:app_id>/', views.make_cert_appointment, name = 'cert_appointment'),  
     path('certification_appointment/<slug:app_id>/', views.make_cert_appointment, name = 'cert_appointment'),  
+    path('training_appointment/<slug:app_id>/', views.make_training_appointment, name = 'training_appointment'),  
     # path('pdf/', views.pdf_view, name='pdf'),
     # path('entrypage/', views.entry_page, name='entry_page'),
     # path('', views.get_list_video, name = 'home'),

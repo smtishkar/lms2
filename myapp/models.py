@@ -4,6 +4,7 @@ from django.core.validators import FileExtensionValidator
 from django.urls import reverse
 from embed_video.fields import EmbedVideoField
 from django.utils.text import slugify
+import datetime as dt
 
 
 def translate_to_eng (s:str) -> str:
@@ -73,8 +74,6 @@ class Site_sections(models.Model):
     class Meta:
         verbose_name = "1. Разделы сайта"
         verbose_name_plural = "1. Разделы сайта"
-
-
 
 
 class Technicians_cources(models.Model):
@@ -189,7 +188,7 @@ class Certification_appointment(models.Model):
     # title = models.CharField(max_length=250)
     job_title = models.CharField(max_length=250)
     certification_date = models.DateField()
-    certification_time = models.TimeField()
+    certification_time = models.TimeField(default=dt.time(00, 00))          ## Если хотим чтобы в форме был выбор установленного времени
     created_at = models.DateTimeField(auto_now_add=True)
     # slug = models.SlugField(max_length=255, unique=True, db_index=True)
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
@@ -221,6 +220,95 @@ class Certification_appointment(models.Model):
         # indexes = [
         #     models.Index(fields=['-time_create'])
         # ]
+
+
+
+
+class Training_shedule(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
+    # title = models.CharField(max_length=250)
+    training_id = models.CharField(max_length=250, blank=True)
+    training_name = models.CharField(max_length=250)
+    training_start_date = models.DateField()
+    training_end_date = models.DateField()
+    actual_num_participants = models.IntegerField(default=0)
+    max_participants = models.IntegerField()
+    # slug = models.SlugField(max_length=255, unique=True, db_index=True)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
+    dlr=models.CharField(max_length=250,null=True, blank=True)
+    employee_id = models.CharField(max_length=250, null=True, blank=True)
+    employee_name = models.CharField(max_length=250, null=True, blank=True)
+    employee_last_name = models.CharField(max_length=250, null=True, blank=True)
+    # time_update = models.DateTimeField(auto_now=True)
+    is_available = models.BooleanField(default=0)
+
+    
+    def __str__(self):
+        return self.training_name
+
+    def get_absolute_url(self):
+        return reverse('appointment', kwargs={'app_id': self.slug})          ## post это имя маршрута в urls
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.training_name))
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "6. Запись на тренинги"
+        verbose_name_plural = "6. Запись на тренинги"
+        ordering = ['training_name', 'training_start_date']
+
+
+
+class Training_participants(models.Model):
+
+    # class Status(models.IntegerChoices):
+    #     DRAFT = 0, 'Черновик'
+    #     PUBLISHED = 1, 'Опубликовано'
+
+    # title = models.CharField(max_length=250)
+    training_name = models.CharField(max_length=250)
+    # training_id = models.ForeignKey(Training_shedule,on_delete=models.DO_NOTHING)
+    training_id = models.CharField(max_length=250, blank=True)
+    training_start_date = models.DateField()
+    training_end_date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    # actual_num_participants = models.IntegerField(default=0)
+    # max_participants = models.IntegerField()
+    # slug = models.SlugField(max_length=255, unique=True, db_index=True)
+    # is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+    #                                    default=Status.DRAFT, verbose_name="Статус")
+    dlr=models.CharField(max_length=250,null=True, blank=True)
+    employee_id = models.CharField(max_length=250, null=True, blank=True)
+    employee_name = models.CharField(max_length=250, null=True, blank=True)
+    employee_last_name = models.CharField(max_length=250, null=True, blank=True)
+    # time_update = models.DateTimeField(auto_now=True)
+    # is_available = models.BooleanField(default=0)
+
+    
+    def __str__(self):
+        return self.training_name
+
+    def get_absolute_url(self):
+        return reverse('appointment', kwargs={'app_id': self.slug})          ## post это имя маршрута в urls
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.training_name))
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "6. лист участников тренинга"
+        verbose_name_plural = "6. лист участников тренинга"
+        ordering = ['training_name', 'training_start_date']
+
+
+
+
 
 class Job_titles(models.Model):
 

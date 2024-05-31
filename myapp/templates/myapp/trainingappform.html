@@ -1,0 +1,22 @@
+{% extends 'myapp/base.html' %}
+<!-- {% load static %}   -->
+
+
+
+{% block content %}
+
+
+<h1 class="test"> {{ cources.title }}</h1>
+{% include "myapp/messages.html" %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    
+    <table class="table-form">
+        
+        {{ form.as_table }}
+        </table>
+    <p><button type="submit" class="btn btn-primary">Зарегистрировать</button></p>
+</form>
+
+{% endblock content %}

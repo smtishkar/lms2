@@ -1,5 +1,10 @@
 from django import forms
-from .models import Certification_appointment,Dealers,Edu_programs
+from .models import Certification_appointment,Dealers,Edu_programs,Training_shedule, Training_participants
+import datetime as dt
+
+
+HOUR_CHOICES = [(dt.time(hour=x), '{:02d}:00'.format(x)) for x in range(0, 24)]                     ##варианты выбора времени
+
 
 
 class CertificationAppointmentForm(forms.ModelForm):
@@ -21,8 +26,7 @@ class CertificationAppointmentForm(forms.ModelForm):
                   'employee_name': 'Имя сотрудника',
                   'employee_last_name':'Фамилия сотрудника'
                   }
-
-        
+        # widgets = {'certification_time': forms.Select(choices=HOUR_CHOICES)}            ##Выбор часов в форме
 
 
     #     job_title = models.CharField(max_length=250)
@@ -36,3 +40,23 @@ class CertificationAppointmentForm(forms.ModelForm):
     # employee_name = models.CharField(max_length=250, null=True)
     # employee_last_name = models.CharField(max_length=250, null=True)
     # is_available = models.BooleanField(default=1)
+
+
+class TrainingAppointmentForm(forms.ModelForm):
+
+    # dlr = forms.CharField(label='Название дилерского центра', max_length=100)
+    # employee_id = forms.CharField(label='ID сотрудника', max_length=100)
+    # employee_name = forms.CharField(label='Имя сотрудника', max_length=100)
+    # employee_last_name = forms.CharField(label='Фамилия сотрудника', max_length=100)
+    # category = forms.ModelChoiceField(label='Выберите категорию', queryset=Category.objects.all())        ## Оставил как пример списка | empty_label
+
+    dlr = forms.ModelChoiceField(queryset=Dealers.objects.all(), empty_label='Дилер не выбран', label='Дилерский центр')
+    class Meta:
+        model = Training_participants
+        # fields = ['job_title', 'certification_date', 'certification_time', 'dlr', 'employee_id', 'employee_name', 'employee_last_name']
+        fields = ['dlr', 'employee_id', 'employee_name', 'employee_last_name']
+        labels = {'employee_id': 'ID сотрудника',
+                  'employee_name': 'Имя сотрудника',
+                  'employee_last_name':'Фамилия сотрудника'
+                  }
+

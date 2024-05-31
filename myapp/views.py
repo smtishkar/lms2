@@ -1,12 +1,13 @@
 from django.shortcuts import redirect, render
 
-from myapp.forms import CertificationAppointmentForm
-from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment
+from myapp.forms import CertificationAppointmentForm,TrainingAppointmentForm
+from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404
 from .services import open_file
 from django.http import FileResponse, Http404
 from django.contrib import messages
+from django.db.models import Count
 
 # Create your views here.
 
@@ -81,14 +82,20 @@ def get_technician_content(request, part_slug):             ## переимен�
     cources = Technicians_cources.objects.all()
     slug_area = get_object_or_404(Site_sections, slug=part_slug)
     certifications= Certification_appointment.objects.all()
-
+    trainings = Training_shedule.objects.all()
+    # trainings = Training_shedule.objects.order_by().values('training_id').distinct()
+    participants = Training_participants.objects.values('training_id').annotate(the_count=Count('training_id'))
+    print (trainings)
+    print (participants)
     data = {
         'cources': cources,
         'slug_area': slug_area,
-        'certifications': certifications
+        'certifications': certifications,
+        "trainings": trainings,
+        "participants": participants
         # 'chapters': chapters
     }
-    print(data)
+    # print(data)
     # print(w.image.url)
     # print(Technicians_cources.get_absolute_url)
     return render(request, 'myapp/techcont.html', data)
@@ -109,7 +116,7 @@ def get_education_part(request, part_slug):
     # w = Technicians_cources.objects.all()[4]
     # print(w.image.url)
     # print(Technicians_cources.objects.all())
-    print(part_slug)
+    # print(part_slug)
 
     return render(request, 'myapp/eduparts.html', data)
     # return render(request, 'myapp/eduparts.html', {'parts': Training_parts.objects.all()})
@@ -163,6 +170,50 @@ def make_cert_appointment(request,app_id):
 
     return render(request, 'myapp/certappform.html', data)
 
+
+def make_training_appointment(request,app_id):
+    appointment = Training_shedule.objects.get(pk=app_id)
+    print(appointment.training_id)
+    print(app_id)
+
+    training_id = appointment.training_id
+    training_name = appointment.training_name
+    training_start_date = appointment.training_start_date
+    training_end_date = appointment.training_end_date
+    # actual_num_participants = 
+    max_participants = appointment.max_participants
+    is_published = appointment.is_published
+    is_available = appointment.is_available
+    print(training_start_date)
+    temp = Training_participants(training_id = appointment.training_id, training_name = appointment.training_name, training_start_date = appointment.training_start_date, training_end_date = appointment.training_end_date)
+    # temp = Training_shedule(training_id = appointment.training_id, training_name = appointment.training_name, training_start_date = appointment.training_start_date, training_end_date = appointment.training_end_date, is_published = appointment.is_published, is_available = appointment.is_available, max_participants=appointment.max_participants)
+    # appointment = Training_shedule.objects.get()
+    if request.method == 'POST':
+        form = TrainingAppointmentForm(request.POST, instance=appointment)
+        if form.is_valid():
+            temp.dlr=form.cleaned_data['dlr']
+            temp.employee_id = form.cleaned_data['employee_id']
+            temp.employee_name = form.cleaned_data['employee_name']
+            temp.employee_last_name = form.cleaned_data['employee_last_name']
+            # appointment.job_title = request.POST.get('job_title')
+            temp.save()
+            # form.save()
+            # appointment.save()
+            # appointment.actual_num_participants = appointment.actual_num_participants+1
+            # appointment.save()
+            messages.success(request, 'some text')
+            # return redirect('/', pk=appointment.pk)
+    else:
+        form = TrainingAppointmentForm()
+        # messages.error(request, 'Что-то пошло не так!!!')
+
+    data = {
+        'form': form,
+        # 'messages': messages
+        # 'cert_data': cert_data
+    }
+
+    return render(request, 'myapp/trainingappform.html', data)
 
 
 # def embed_video(request):
