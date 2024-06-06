@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-
+from django.contrib.auth.decorators import login_required
 from myapp.forms import CertificationAppointmentForm,TrainingAppointmentForm
 from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants
 from django.http import HttpResponse, StreamingHttpResponse
@@ -62,7 +62,7 @@ def pdf_view(request):
 # # Replace with the actual URL of your PDF file
 #    return render(request, 'myapp/pdf.html', {'pdf_url': pdf_url})
 
-
+@login_required
 def get_site_sections(request):
     sections = Site_sections.objects.all()
     # section_slug = get_object_or_404(Technicians_cources, slug=part_slug)
