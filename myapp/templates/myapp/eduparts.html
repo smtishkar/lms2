@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         {% for part in parts %}
-        {% if part.level == cources.title %}
+        {% if part.level == cources.title and part.is_published %}
         <div class="col">
             <div class="img-box">
                 <img src="{{ part.image.url }}" class="img-thumbnail" alt="{{ part.title }}">

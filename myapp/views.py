@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from myapp.forms import CertificationAppointmentForm,TrainingAppointmentForm
-from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants
+from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants, Content
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404
 from .services import open_file
@@ -85,8 +85,8 @@ def get_technician_content(request, part_slug):             ## переимен�
     trainings = Training_shedule.objects.all()
     # trainings = Training_shedule.objects.order_by().values('training_id').distinct()
     participants = Training_participants.objects.values('training_id').annotate(the_count=Count('training_id'))
-    print (trainings)
-    print (participants)
+    # print (trainings)
+    # print (participants)
     data = {
         'cources': cources,
         'slug_area': slug_area,
@@ -111,6 +111,8 @@ def get_education_part(request, part_slug):
         'parts': parts,
         'cources': cources,
     }
+    print(parts)
+    print(cources)
     # print(data)
     # print(Training_parts.objects.all())
     # w = Technicians_cources.objects.all()[4]
@@ -126,9 +128,11 @@ def get_training_content(request, content_slug):
 
     parts = Training_chapters.objects.all()
     cources = get_object_or_404(Training_parts, slug=content_slug)
+    contents = Content.objects.all()
     data = {
         'parts': parts,
         'cources': cources,
+        'contents': contents,                   # Не понятно зачем это тут
     }
     # print(content_slug)
     # print(Training_chapters.objects.all())
@@ -137,9 +141,29 @@ def get_training_content(request, content_slug):
     # print(p.chapter)
     # print(p.chapter == c.title)
     # print(c.title)
-
+    print(cources)
     return render(request, 'myapp/educontent.html', data)
     # return render(request, 'myapp/eduparts.html', {'parts': Training_parts.objects.all()})
+
+
+
+def get_content_to_study(request, fin_content_slug):
+
+    parts = Training_chapters.objects.all()
+    cources = get_object_or_404(Training_chapters, slug=fin_content_slug)
+    print(cources)
+    contents = Content.objects.all()
+    data = {
+        'cources': cources,
+        'contents': contents,
+        'parts': parts
+    }
+
+    return render(request, 'myapp/content.html', data)
+    # return render(request, 'myapp/eduparts.html', {'parts': Training_parts.objects.all()})
+
+
+
 
 
 def get_tt_level_content(request):

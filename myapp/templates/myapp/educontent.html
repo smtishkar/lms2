@@ -4,29 +4,30 @@
 
 {% block content %}
 
-<h1 class="test"> {{ cources.title }}</h1>
-<div class="container">
-    <div class="row">
-        {% for part in parts %}
-        {% if part.chapter == cources.title %}
-        {% if part.content_type == 'video' %}
-        {% video part.video 'small' %}
-        {% else %}
-        <div class="col">
-            <div class="img-box">
-                <img src="{{ part.image.url }}" class="img-thumbnail" alt="{{ part.title }}">
-            </div>
-            <p>{{ part.description }}</p>
-                <div class="d-grid gap-2 col-11 mx-auto">
-                    <button class="btn btn-primary" type="button">{{ part.title }}</button>
-                </div>
-            </a>
-        </div>
-            {% endif %}
+<h1 class="page-name"> {{ cources.title }}</h1>
+
+
+<div class="page-area">
+    <div class="left-sidebar">
+        <ul class="list-group list-group-flush">
+            {% for part in parts %}
+            {% if part.chapter == cources.title and part.is_published %}
+
+                <li><a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.title }}</a></li>
             {% endif %}
             {% endfor %}
+        </ul>
+    </div>
+    <div class="container">
+        <div class="page-row">
+            <p>
+                {{ cources.description}}
+            </p>
+
+        </div>
     </div>
 </div>
+
 
 {% endblock content %}
 

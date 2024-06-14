@@ -1,6 +1,11 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="http://127.0.0.1:8000/">Академия Тойота</a>
+      <img class="logo"
+  src="../static/myapp/image/toyota_logo.svg"
+  alt="toyota_logo"
+  height="87px"
+  width="100px" />
+      <a class="navbar-brand" href="http://127.0.0.1:8000/">Главная</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -39,9 +44,11 @@
           <li class="nav-item">
             <a class="nav-link" href="#">ВОЙТИ</a>
           </li>
+          {% if request.user.access_rights == 'admin' %}
           <li class="nav-item">
             <a class="nav-link" href='{% url "users:register" %}'>Регистрация</a>
           </li>
+          {% endif %}
         </ul>
         <!-- <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">

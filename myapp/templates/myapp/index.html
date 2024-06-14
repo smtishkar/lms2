@@ -18,9 +18,9 @@
         {% for section in sections %}
         <div class="col">
             <div class="img-box">
-                <img src="{{ section.image }}" class="img-thumbnail" alt="{{ section.title }}">
+                <img class="img" src="{{ section.image }}" class="img-thumbnail" alt="{{ section.title }}">
             </div>
-            <p>{{ section.description }}</p>
+            <p class="area-description">{{ section.description }}</p>
             <a href="{% url 'section' section.slug %}">
                 <div class="d-grid gap-2 col-11 mx-auto">
                     <button class="btn btn-primary" type="button">{{ section.button_name }}</button>

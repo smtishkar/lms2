@@ -12,9 +12,9 @@
         {% if cource.job_title == slug_area.title and cource.is_published %}
         <div class="col">
             <div class="img-box">
-                <img src="{{ cource.image.url }}" class="img-thumbnail" alt="{{ cource.title }}">
+                <img class="img"  src="{{ cource.image.url }}" class="img-thumbnail" alt="{{ cource.title }}">
             </div>
-            <p>{{ cource.description }}</p>
+            <p class="area-description">{{ cource.description }}</p>
             <a href="{{ cource.get_absolute_url }}">
                 <div class="d-grid gap-2 col-11 mx-auto">
                     <button class="btn btn-primary" type="button">{{ cource.button_name }}</button>
@@ -51,31 +51,33 @@
                 <div class="job-title-text">
                     <h4>
                         {{ training.training_name }}
+                        
                     </h4>
                 </div>
-
-                {% for participant in participants %}
-                {% if training.training_id == participant.training_id and training.max_participants > participant.the_count%}
+                <p> {{ training.training_start_date }} - {{ training.training_end_date }} </p>
+                
                 <div class="but-cert-app">
                     <a href="{% url 'training_appointment' training.id %}">
                         <div class="d-grid gap-2 col-11 mx-auto">
-                            <button class="btn btn-primary" type="button">{{ training.training_start_date }} {{ training.training_end_date }}</button>
+                            <button class="btn btn-primary" type="button">Записаться</button>
                         </div>
                     </a>
                 </div>
-                {% endif %} 
-                {% endfor %}
+
                 <div>
                     <h4>
                         <div class="training-box-title">
-                            <p>Записано</p>
                             <p>Всего мест</p>
+                            <p>Записано</p>
                         </div>
-                        {% for participant in participants %}
-                        {% if training.training_id == participant.training_id %} 
                         <div class="training-box-places">
-                            <h1>{{ participant.the_count }}</h1>
                             <h1>{{ training.max_participants }}</h1>
+
+                            {% for participant in participants %}
+                            {% if training.training_id == participant.training_id %} 
+                            <div>
+                                <h1>{{ participant.the_count }}</h1>
+                            </div>
                         </div>
                         {% endif %}     
                         {% endfor %}

@@ -1,0 +1,61 @@
+{% extends 'myapp/base.html' %}
+<!-- {% load static %}   -->
+{% load embed_video_tags %}
+
+{% block content %}
+
+<h1 class="page-name"> {{ cources.title }}</h1>
+
+
+<div class="page-area">
+    <div class="left-sidebar">
+        <ul class="list-group list-group-flush">
+            {% for part in parts %}
+            {% if cources.chapter == part.chapter and part.is_published %}
+
+                <li><a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.title }}</a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="container">
+        <div class="page-row">
+            
+            {% for content in contents %}
+            {% if content.title == cources.title and content.is_published %}
+
+
+            {% if content.content_type == 'video' %}
+            <div class="video-on-page">
+                {% video content.video 'tiny' %}
+            </div>
+            <br>
+            {% else %}
+            <div class="col">
+                <div class="img-box">
+                    <img src="{{ content.image.url }}" class="img-thumbnail" alt="{{ content.title }}">
+                </div>
+                <p>{{ content.description }}</p>
+                    <div class="d-grid gap-2 col-11 mx-auto">
+                        <button class="btn btn-primary" type="button">{{ content.title }}</button>
+                    </div>
+                </a>
+            </div>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+
+<!-- <div class="mt-5 px-5">
+
+    {% for i in videos %}
+    {% video i.video 'small' %}
+    {% endfor %}
+</div> -->

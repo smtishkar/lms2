@@ -179,6 +179,55 @@ class Training_chapters(models.Model):
         super().save(*args, **kwargs)
 
 
+
+
+class Content(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
+
+    title = models.CharField(max_length=250)
+    area = models.CharField(max_length=250)
+    level = models.CharField(max_length=250)
+    chapter = models.CharField(max_length=250)
+    section = models.CharField(max_length=250, null=True)
+    description = models.TextField()
+    image = models.ImageField(upload_to='images/')
+    content_type = models.CharField(max_length=250)
+    video = EmbedVideoField(blank=True)
+    slug = models.SlugField(max_length=255, db_index=True)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
+
+    class Meta:
+        verbose_name = "5. Контенкт"
+        verbose_name_plural = "5. Контент"
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('fin_content', kwargs={'fin_content_slug': self.slug})          ## post это имя маршрута в urls
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.title))
+        super().save(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Certification_appointment(models.Model):
 
     class Status(models.IntegerChoices):
@@ -213,8 +262,8 @@ class Certification_appointment(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name = "5. Запись на сертификацию"
-        verbose_name_plural = "5. Запись на сертификацию"
+        verbose_name = "6. Запись на сертификацию"
+        verbose_name_plural = "6. Запись на сертификацию"
         # ordering = ['-time_create']
         ordering = ['job_title', 'certification_date', 'certification_time']
         # indexes = [
@@ -383,3 +432,30 @@ class Edu_programs(models.Model):
     class Meta:
         verbose_name = "8. Список всех программ обучения"
         verbose_name_plural = "8. Список всех программ обучения"
+
+
+
+
+class Rights_access(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
+    rights_title = models.CharField(max_length=250)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
+
+    def __str__(self):
+        return self.rights_title
+    
+    # def get_absolute_url(self):
+    #     return reverse('appointment', kwargs={'app_id': self.slug})          ## Наверное тут надо что-то поменять
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.rights_title))
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name = "9. Права доступа"
+        verbose_name_plural = "9. Права доступа"

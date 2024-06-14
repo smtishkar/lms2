@@ -7,6 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import LoginUserForm
 from django.views.generic import CreateView, UpdateView
 from .forms import LoginUserForm, RegisterUserForm
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 # Create your views here.
 
@@ -20,11 +21,13 @@ class LoginUser(LoginView):
         return reverse_lazy('index')
 
 
-class RegisterUser(CreateView):
+class RegisterUser(PermissionRequiredMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'users/register.html'
     extra_context = {'title': "Регистрация"}
     success_url = reverse_lazy('users:login')
+    permission_required = 'users.add_user'
+
 
 
 # def login_user(request):
