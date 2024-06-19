@@ -55,7 +55,7 @@
     gap: 10px;
     display: flex;
     width: 400px;
-    height: 300px;
+    height: 350px;
     flex-direction: column;
     border: 1px solid;
     justify-content: flex-start;
@@ -157,4 +157,8 @@
 
 .logo{
     margin-right: 50px;
+}
+
+.list-group{
+    list-style-type : none;
 }

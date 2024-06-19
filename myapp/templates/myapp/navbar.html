@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <img class="logo"
-  src="../static/myapp/image/toyota_logo.svg"
+  src="../../../media/images/toyota_logo.svg"
   alt="toyota_logo"
   height="87px"
   width="100px" />
@@ -11,21 +11,21 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="http://127.0.0.1:8000/">Главная</a>
-          </li>
+          </li> -->
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Разделы
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Технический персонал</a></li>
-              <li><a class="dropdown-item" href="#">Нетехнически персонал</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:8000/technician/">Технический персонал</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:8000/service_advisor/">Нетехнически персонал</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Запись на тренинги</a></li>
-              <li><a class="dropdown-item" href="#">Запись на сертификацию</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:8000/training_appointment/">Запись на тренинги</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:8000/certification_appointment/">Запись на сертификацию</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Подписка</a></li>
+              <li><a class="dropdown-item" href="http://127.0.0.1:8000/subscription/">Подписка</a></li>
             </ul>
           </li>
           <li class="nav-item">
@@ -34,6 +34,14 @@
           <li class="nav-item">
             <a class="nav-link" href="#">Новости</a>
           </li>
+          {% if request.user.access_rights == 'admin' %}
+          <li class="nav-item">
+            <a class="nav-link" href='{% url "users:register" %}'>Регистрация</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href='{% url "users:profile_search" %}'>Профиль</a>
+          </li>
+          {% endif %}
           {% if request.user.is_authenticated %}
           <li class="nav-link">
             {{request.user}} |
@@ -41,14 +49,10 @@
           <li class="nav-item"> 
             <a class="nav-link" href='{% url "users:logout" %}'>Выйти</a>
           {% endif %}
-          <li class="nav-item">
+          </li>
+          <!-- <li class="nav-item">
             <a class="nav-link" href="#">ВОЙТИ</a>
-          </li>
-          {% if request.user.access_rights == 'admin' %}
-          <li class="nav-item">
-            <a class="nav-link" href='{% url "users:register" %}'>Регистрация</a>
-          </li>
-          {% endif %}
+          </li> -->
         </ul>
         <!-- <form class="d-flex" role="search">
           <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">
