@@ -14,6 +14,11 @@
             {% if part.chapter == cources.title and part.is_published %}
 
                 <li><a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.title }}</a></li>
+                {% for edu_results in edu_results_list %}
+                {% if edu_results.title == part.slug and edu_results.username == request.user.username%}
+                    <p>Изучено</p>
+                    {% endif %}
+                    {% endfor %}
             {% endif %}
             {% endfor %}
         </ul>

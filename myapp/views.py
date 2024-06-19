@@ -130,10 +130,14 @@ def get_training_content(request, content_slug):
     parts = Training_chapters.objects.all()
     cources = get_object_or_404(Training_parts, slug=content_slug)
     contents = Content.objects.all()
+    edu_results_list = Edu_Results.objects.filter(username=request.user)
+
+
     data = {
         'parts': parts,
         'cources': cources,
         'contents': contents,                   # Не понятно зачем это тут
+        'edu_results_list': edu_results_list
     }
     # print(content_slug)
     # print(Training_chapters.objects.all())
@@ -152,14 +156,18 @@ def get_content_to_study(request, fin_content_slug):
 
     parts = Training_chapters.objects.all()
     cources = get_object_or_404(Training_chapters, slug=fin_content_slug)
-    print(cources)
+    # print(cources)
     contents = Content.objects.all()
-    edu_results = Edu_Results.objects.create(
-        username = request.user.username,
-        title = fin_content_slug,
-        )
-    edu_results.save()
-    edu_results_list = Edu_Results.objects.all()
+    try:
+        edu_results_list = Edu_Results.objects.filter(username=request.user).get(title=fin_content_slug)
+    except:
+        edu_results_list = Edu_Results.objects.create(
+            username = request.user.username,
+            title = fin_content_slug,
+            )
+        edu_results_list.save()
+        print('запись добавлена')
+    edu_results_list = Edu_Results.objects.filter(username=request.user)
     data = {
         'cources': cources,
         'contents': contents,

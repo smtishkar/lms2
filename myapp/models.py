@@ -491,11 +491,11 @@ class Edu_Results(models.Model):
         verbose_name_plural = "9. Результаты изучения"
 
     def __str__(self):
-        return self.username
+        return self.title
 
     def get_absolute_url(self):
         return reverse('fin_content', kwargs={'fin_content_slug': self.slug})          ## post это имя маршрута в urls
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(translate_to_eng(self.title))
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(translate_to_eng(self.title))
+    #     super().save(*args, **kwargs)
