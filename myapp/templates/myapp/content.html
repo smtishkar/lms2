@@ -12,7 +12,7 @@
         <ul class="list-group list-group-flush">
             {% for part in parts %}
             {% if cources.chapter == part.chapter and part.is_published %}
-
+            
                 <li><a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.title }}</a></li>
             {% endif %}
             {% endfor %}

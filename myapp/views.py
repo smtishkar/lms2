@@ -1,13 +1,14 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from myapp.forms import CertificationAppointmentForm,TrainingAppointmentForm
-from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants, Content
+from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants, Content, Edu_Results
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404
 from .services import open_file
 from django.http import FileResponse, Http404
 from django.contrib import messages
 from django.db.models import Count
+from users.models import User
 
 # Create your views here.
 
@@ -153,12 +154,18 @@ def get_content_to_study(request, fin_content_slug):
     cources = get_object_or_404(Training_chapters, slug=fin_content_slug)
     print(cources)
     contents = Content.objects.all()
+    edu_results = Edu_Results.objects.create(
+        username = request.user.username,
+        title = fin_content_slug,
+        )
+    edu_results.save()
+    edu_results_list = Edu_Results.objects.all()
     data = {
         'cources': cources,
         'contents': contents,
-        'parts': parts
+        'parts': parts,
+        'edu_results_list': edu_results_list
     }
-
     return render(request, 'myapp/content.html', data)
     # return render(request, 'myapp/eduparts.html', {'parts': Training_parts.objects.all()})
 

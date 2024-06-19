@@ -470,8 +470,10 @@ class Edu_Results(models.Model):
     #     DRAFT = 0, 'Черновик'
     #     PUBLISHED = 1, 'Опубликовано'
 
-    username = models.ForeignKey('users.User', on_delete=models.DO_NOTHING)
-    title = models.ForeignKey('Content', on_delete=models.DO_NOTHING)
+    # username = models.ForeignKey('users.User', on_delete=models.DO_NOTHING)
+    # title = models.ForeignKey('Content', on_delete=models.DO_NOTHING)
+    username = models.CharField(max_length=250)
+    title = models.CharField(max_length=250)
     # area = models.CharField(max_length=250)
     # level = models.CharField(max_length=250)
     # chapter = models.CharField(max_length=250)
