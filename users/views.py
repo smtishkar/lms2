@@ -9,8 +9,11 @@ from django.views.generic import CreateView, UpdateView
 from .forms import LoginUserForm, RegisterUserForm, ProfileUserForm, UserProfileSearhForm
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from .models import User
-
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+from csv import DictReader
+from io import TextIOWrapper
 
 # Create your views here.
 
@@ -117,3 +120,6 @@ def profile_search(request):
         return HttpResponseRedirect(uri)
         # return HttpResponseRedirect(reverse('users:profile_search', args=[1]))
     return render(request, 'users/profile_search.html')
+
+
+

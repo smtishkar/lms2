@@ -5,6 +5,7 @@ from django.urls import reverse
 from embed_video.fields import EmbedVideoField
 from django.utils.text import slugify
 import datetime as dt
+from users.models import User
 
 
 def translate_to_eng (s:str) -> str:
@@ -459,3 +460,40 @@ class Rights_access(models.Model):
     class Meta:
         verbose_name = "9. Права доступа"
         verbose_name_plural = "9. Права доступа"
+
+
+
+
+class Edu_Results(models.Model):
+
+    # class Status(models.IntegerChoices):
+    #     DRAFT = 0, 'Черновик'
+    #     PUBLISHED = 1, 'Опубликовано'
+
+    username = models.ForeignKey('users.User', on_delete=models.DO_NOTHING)
+    title = models.ForeignKey('Content', on_delete=models.DO_NOTHING)
+    # area = models.CharField(max_length=250)
+    # level = models.CharField(max_length=250)
+    # chapter = models.CharField(max_length=250)
+    # section = models.CharField(max_length=250, null=True)
+    # description = models.TextField()
+    # image = models.ImageField(upload_to='images/')
+    # content_type = models.CharField(max_length=250)
+    # video = EmbedVideoField(blank=True)
+    # slug = models.SlugField(max_length=255, db_index=True)
+    # is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+    #                                    default=Status.DRAFT, verbose_name="Статус")
+
+    class Meta:
+        verbose_name = "9. Результаты изучения"
+        verbose_name_plural = "9. Результаты изучения"
+
+    def __str__(self):
+        return self.username
+
+    def get_absolute_url(self):
+        return reverse('fin_content', kwargs={'fin_content_slug': self.slug})          ## post это имя маршрута в urls
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.title))
+        super().save(*args, **kwargs)

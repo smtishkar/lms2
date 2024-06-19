@@ -14,4 +14,5 @@ urlpatterns = [
     path('password-change/done', PasswordChangeDoneView.as_view(template_name='users/password_change_done.html'), name='password_change_done'),
     path('profile/<int:pk>/', views.ProfileUser.as_view(), name='profile'),
     path('profile_search/', views.profile_search, name='profile_search'),
+    path('database/', views.profile_search, name='profile_search'),
 ]
