@@ -263,3 +263,13 @@ def make_training_appointment(request,app_id):
 #     }
 
 #     return render(request, 'myapp/index.html', context)
+
+def test_pdf(request):
+
+    temp = Content.objects.all()
+
+    data = {
+            'temp': temp
+        }
+    return render(request, 'myapp/test.html', data)
+

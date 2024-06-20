@@ -138,6 +138,8 @@ LOGIN_URL = 'users:login'
 AUTH_USER_MODEL = 'users.User'
 
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

@@ -24,28 +24,25 @@
         </ul>
     </div>
     <div class="container">
-        <div class="page-row">
+        <div >
             
             {% for content in contents %}
             {% if content.title == cources.title and content.is_published %}
 
+            {% if content.content_type == 'presentation' %}
+            <h2>Презентация по теме: {{ content.title }}</h2>
 
+            <iframe src="{{ content.file.url }} #toolbar=0" height="800" width="1000" frameborder="0"></iframe>
+            <hr>
+            {% endif %}
+            
             {% if content.content_type == 'video' %}
+            <h2>Видео по теме: {{ content.title }}</h2>
             <div class="video-on-page">
                 {% video content.video 'tiny' %}
             </div>
             <br>
-            {% else %}
-            <div class="col">
-                <div class="img-box">
-                    <img src="{{ content.image.url }}" class="img-thumbnail" alt="{{ content.title }}">
-                </div>
-                <p>{{ content.description }}</p>
-                    <div class="d-grid gap-2 col-11 mx-auto">
-                        <button class="btn btn-primary" type="button">{{ content.title }}</button>
-                    </div>
-                </a>
-            </div>
+           
                 {% endif %}
                 {% endif %}
                 {% endfor %}

@@ -112,7 +112,7 @@ class Training_chaptersAdmin(admin.ModelAdmin):
 
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
-    fields = ['title', 'slug', 'description', 'area', 'level', 'chapter', 'image', 'section', 'content_type', 'video', 'is_published']
+    fields = ['title', 'slug', 'description', 'area', 'level', 'chapter', 'image', 'section', 'content_type', 'video', 'file', 'is_published']
     prepopulated_fields = {'slug': ('title',)}
     list_display = ('id', 'title', 'slug', 'area', 'level', 'section','chapter', 'content_type', 'is_published')
     list_display_links = ('title', )    

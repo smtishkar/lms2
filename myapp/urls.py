@@ -12,6 +12,7 @@ urlpatterns = [
     # path('certification_appointment/app/<int:app_id>/', views.make_cert_appointment, name = 'cert_appointment'),  
     path('certification_appointment/<slug:app_id>/', views.make_cert_appointment, name = 'cert_appointment'),  
     path('training_appointment/<slug:app_id>/', views.make_training_appointment, name = 'training_appointment'),  
+    path('test_pdf/test_pdf/', views.test_pdf, name = 'test_pdf'),  
     
     
     # path('pdf/', views.pdf_view, name='pdf'),

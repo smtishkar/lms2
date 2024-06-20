@@ -90,6 +90,7 @@ class Technicians_cources(models.Model):
     # image = models.ImageField(upload_to='static/myapp/image/')
     image = models.ImageField(upload_to='images/')
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
+    # job_title = models.ForeignKey('Job_titles', on_delete=models.DO_NOTHING, null=True)
     job_title = models.CharField(max_length=250)
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
                                        default=Status.DRAFT, verbose_name="Статус")
@@ -198,6 +199,7 @@ class Content(models.Model):
     image = models.ImageField(upload_to='images/')
     content_type = models.CharField(max_length=250)
     video = EmbedVideoField(blank=True)
+    file = models.FileField(upload_to='files/', blank=True)
     slug = models.SlugField(max_length=255, db_index=True)
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
                                        default=Status.DRAFT, verbose_name="Статус")

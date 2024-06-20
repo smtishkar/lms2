@@ -162,3 +162,9 @@
 .list-group{
     list-style-type : none;
 }
+
+@media print {
+    body {
+      display: none !important;
+    }
+  }
