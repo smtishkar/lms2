@@ -45,6 +45,35 @@ class Video(models.Model):
         return self.title
 
 
+
+
+class Job_titles(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
+    title = models.CharField(max_length=250)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
+
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('appointment', kwargs={'app_id': self.slug})          ## Наверное тут надо что-то поменять
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.title))
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "6. Список должностей"
+        verbose_name_plural = "6. Список должностей"
+
+
+
+
 class Site_sections(models.Model):
 
     class Status(models.IntegerChoices):
@@ -52,22 +81,22 @@ class Site_sections(models.Model):
         PUBLISHED = 1, 'Опубликовано'
 
 
-    title = models.CharField(max_length=100, verbose_name='Заголовок')
-    description = models.TextField(verbose_name='Описание')
+    section_name = models.CharField(max_length=100, verbose_name='Заголовок')
+    description = models.TextField(verbose_name='Описание', null=True, blank=True)
     button_name = models.CharField(max_length=100, verbose_name='Название кнопки')
-    image = models.ImageField(upload_to='static/myapp/image/')
+    image = models.ImageField(upload_to='static/myapp/image/', null=True, blank=True)
     slug = models.SlugField(max_length=255, db_index=True, verbose_name="Slug")
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
                                        default=Status.DRAFT, verbose_name="Статус")
 
     def __str__(self):
-        return self.title
+        return self.section_name
         
     def get_absolute_url(self):
         return reverse('part', kwargs={'part_slug': self.slug})          ## post это имя маршрута в urls
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(translate_to_eng(self.title))
+        self.slug = slugify(translate_to_eng(self.section_name))
         # self.slug = slugify(self.title)
         super().save(*args, **kwargs)
     
@@ -84,31 +113,32 @@ class Technicians_cources(models.Model):
         PUBLISHED = 1, 'Опубликовано'
 
 
-    title = models.CharField(max_length=100)
-    description = models.TextField()
+    edu_area_name = models.CharField(max_length=100)
+    description = models.TextField(verbose_name='Описание', null=True, blank=True)
     button_name = models.CharField(max_length=100)
     # image = models.ImageField(upload_to='static/myapp/image/')
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     # job_title = models.ForeignKey('Job_titles', on_delete=models.DO_NOTHING, null=True)
-    job_title = models.CharField(max_length=250)
+    area = models.CharField(max_length=250)
+    # edu_area = models.ForeignKey('Job_titles', on_delete=models.DO_NOTHING, null=True)
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
                                        default=Status.DRAFT, verbose_name="Статус")
 
     class Meta:
-        verbose_name = "2. Программы обучения"
-        verbose_name_plural = "2. Программы обучения"
+        verbose_name = "2. Направления обучения"
+        verbose_name_plural = "2. Направления обучения"
 
 
     def __str__(self):
-        return self.title
+        return self.edu_area_name
     
     
     def get_absolute_url(self):
         return reverse('part', kwargs={'part_slug': self.slug})          ## post это имя маршрута в urls
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(translate_to_eng(self.title))
+        self.slug = slugify(translate_to_eng(self.edu_area_name))
         # self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
@@ -120,9 +150,9 @@ class Training_parts(models.Model):
         DRAFT = 0, 'Черновик'
         PUBLISHED = 1, 'Опубликовано'
 
-    title = models.CharField(max_length=250)                        ## это и есть chapter поэтому поле chapte не нужно
-    area = models.CharField(max_length=250)
-    level = models.CharField(max_length=250)
+    program_name = models.CharField(max_length=250)                        ## это и есть chapter поэтому поле chapte не нужно
+    # area = models.CharField(max_length=250)
+    edu_area_name = models.CharField(max_length=250, null=True, blank=True)
     # chapter = models.CharField(max_length=250)
     description = models.TextField()
     image = models.ImageField(upload_to='images/')
@@ -131,18 +161,18 @@ class Training_parts(models.Model):
                                        default=Status.DRAFT, verbose_name="Статус")
 
     class Meta:
-        verbose_name = "3. Главы программы обучения"
-        verbose_name_plural = "3. Главы программы обучения"
+        verbose_name = "3. Содержание программы обучения"
+        verbose_name_plural = "3. Содержание программы обучения"
 
     def __str__(self):
-        return self.title
+        return self.program_name
 
     def get_absolute_url(self):
         # return reverse('part', kwargs={'part_slug': self.slug})          ## post это имя маршрута в urls
         return reverse('content', kwargs={'content_slug': self.slug})          ## post это имя маршрута в urls
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(translate_to_eng(self.title))
+        self.slug = slugify(translate_to_eng(self.program_name))
         super().save(*args, **kwargs)
 
 
@@ -153,31 +183,31 @@ class Training_chapters(models.Model):
         PUBLISHED = 1, 'Опубликовано'
 
 
-    title = models.CharField(max_length=250)
-    area = models.CharField(max_length=250)
-    level = models.CharField(max_length=250)
-    chapter = models.CharField(max_length=250)
-    section = models.CharField(max_length=250, null=True)
+    chapter_name = models.CharField(max_length=250)
+    # area = models.CharField(max_length=250)
+    # level = models.CharField(max_length=250)
+    program_name = models.CharField(max_length=250)
+    # section = models.CharField(max_length=250, null=True)
     description = models.TextField()
-    image = models.ImageField(upload_to='images/')
-    content_type = models.CharField(max_length=250)
-    video = EmbedVideoField(blank=True)
+    # image = models.ImageField(upload_to='images/')
+    # content_type = models.CharField(max_length=250)
+    # video = EmbedVideoField(blank=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
                                        default=Status.DRAFT, verbose_name="Статус")
 
     class Meta:
-        verbose_name = "4. Разделы глав обучения"
-        verbose_name_plural = "4. Разделы глав обучения"
+        verbose_name = "4. Содержание конкретной программы обучения"
+        verbose_name_plural = "4. Содержание конкретной программы обучения"
 
     def __str__(self):
-        return self.title
+        return self.chapter_name
 
     def get_absolute_url(self):
         return reverse('content', kwargs={'content_slug': self.slug})          ## post это имя маршрута в urls
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(translate_to_eng(self.title))
+        self.slug = slugify(translate_to_eng(self.chapter_name))
         super().save(*args, **kwargs)
 
 
@@ -190,13 +220,13 @@ class Content(models.Model):
         PUBLISHED = 1, 'Опубликовано'
 
 
-    title = models.CharField(max_length=250)
-    area = models.CharField(max_length=250)
-    level = models.CharField(max_length=250)
-    chapter = models.CharField(max_length=250)
-    section = models.CharField(max_length=250, null=True)
+    chapter_name = models.CharField(max_length=250)
+    # area = models.CharField(max_length=250)
+    # level = models.CharField(max_length=250)
+    # chapter = models.CharField(max_length=250)
+    # section = models.CharField(max_length=250, null=True)
     description = models.TextField()
-    image = models.ImageField(upload_to='images/')
+    # image = models.ImageField(upload_to='images/')
     content_type = models.CharField(max_length=250)
     video = EmbedVideoField(blank=True)
     file = models.FileField(upload_to='files/', blank=True)
@@ -209,13 +239,13 @@ class Content(models.Model):
         verbose_name_plural = "5. Контент"
 
     def __str__(self):
-        return self.title
+        return self.chapter_name
 
     def get_absolute_url(self):
         return reverse('fin_content', kwargs={'fin_content_slug': self.slug})          ## post это имя маршрута в urls
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(translate_to_eng(self.title))
+        self.slug = slugify(translate_to_eng(self.chapter_name))
         super().save(*args, **kwargs)
 
 
@@ -362,30 +392,6 @@ class Training_participants(models.Model):
 
 
 
-class Job_titles(models.Model):
-
-    class Status(models.IntegerChoices):
-        DRAFT = 0, 'Черновик'
-        PUBLISHED = 1, 'Опубликовано'
-
-    title = models.CharField(max_length=250)
-    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
-                                       default=Status.DRAFT, verbose_name="Статус")
-
-    def __str__(self):
-        return self.title
-    
-    def get_absolute_url(self):
-        return reverse('appointment', kwargs={'app_id': self.slug})          ## Наверное тут надо что-то поменять
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(translate_to_eng(self.title))
-        super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = "6. Список должностей"
-        verbose_name_plural = "6. Список должностей"
-
     
 class Dealers(models.Model):
 
@@ -463,6 +469,31 @@ class Rights_access(models.Model):
         verbose_name = "9. Права доступа"
         verbose_name_plural = "9. Права доступа"
 
+
+
+class Rights_access(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
+    rights_title = models.CharField(max_length=250)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
+
+    def __str__(self):
+        return self.rights_title
+    
+    # def get_absolute_url(self):
+    #     return reverse('appointment', kwargs={'app_id': self.slug})          ## Наверное тут надо что-то поменять
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.rights_title))
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name = "9. Права доступа"
+        verbose_name_plural = "9. Права доступа"
 
 
 

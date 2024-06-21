@@ -4,15 +4,16 @@
 {% block content %}
 
 <h1 class="test">Вы находитесь в разделе "{{ slug_area.button_name }}"</h1>
-<p> {{ cource.slug_area}} </p>
+
 <div class="container">
     <div class="row">
-        {% if slug_area.slug == 'technician' or slug_area.slug == 'service_advisor' %}        
+        {% if slug_area.slug == 'technical' or slug_area.slug == 'non_technical' %}      
+
         {% for cource in cources %}
-        {% if cource.job_title == slug_area.title and cource.is_published %}
+        {% if cource.area == slug_area.slug and cource.is_published %}
         <div class="col">
             <div class="img-box">
-                <img class="img"  src="{{ cource.image.url }}" class="img-thumbnail" alt="{{ cource.title }}">
+                <img class="img"  src="{{ cource.image.url }}" class="img-thumbnail" alt="{{ cource.edu_programs_name }}">
             </div>
             <p class="area-description">{{ cource.description }}</p>
             <a href="{{ cource.get_absolute_url }}">
@@ -100,3 +101,4 @@
     <!-- <a href="{% url 'cert_appointment' %}"> -->
         <!-- <a href="{% url 'cert_appointment/app/1/' %}"> -->
             <!-- <a href="{% url 'training_appointment' training.id %}"> -->
+

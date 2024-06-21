@@ -11,9 +11,10 @@
     <div class="left-sidebar">
         <ul class="list-group list-group-flush">
             {% for part in parts %}
-            {% if part.chapter == cources.title and part.is_published %}
 
-                <li><a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.title }}</a></li>
+            {% if part.program_name == cources.program_name and part.is_published %}
+
+                <li><a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.chapter_name }}</a></li>
                 {% for edu_results in edu_results_list %}
                 {% if edu_results.title == part.slug and edu_results.username == request.user.username%}
                     <p>Изучено</p>

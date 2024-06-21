@@ -16,15 +16,15 @@ admin.site.register(Videos, MyModelAdmin)
 
 @admin.register(Site_sections)
 class Site_sectionsAdmin(admin.ModelAdmin):
-    fields = ['title', 'slug', 'description', 'button_name', 'image', 'is_published']
-    prepopulated_fields = {'slug': ('title',)}
-    list_display = ('id', 'title', 'slug', 'button_name', 'is_published')
-    list_display_links = ('title', )    
+    fields = ['section_name', 'slug', 'description', 'button_name', 'image', 'is_published']
+    prepopulated_fields = {'slug': ('section_name',)}
+    list_display = ('id', 'section_name', 'slug', 'button_name', 'is_published')
+    list_display_links = ('section_name', )    
     ordering = ['id']
     list_editable = ('is_published', )
     list_per_page = 10
     actions = ['set_published', 'set_draft']
-    search_fields = ['title']
+    search_fields = ['section_name']
 
     @admin.action(description="Опубликовать выбранные записи")
     def set_published(self, request, queryset):
@@ -41,15 +41,15 @@ class Site_sectionsAdmin(admin.ModelAdmin):
 class Technicians_courcesAdmin(admin.ModelAdmin):
     # readonly_fields = ['slug']
 
-    fields = ['title', 'slug', 'description', 'button_name', 'image', 'job_title', 'is_published']
-    prepopulated_fields = {'slug': ('title',)}
-    list_display = ('id', 'title', 'slug', 'button_name', 'job_title', 'is_published')
-    list_display_links = ('title', )    
+    fields = ['edu_area_name', 'slug', 'description', 'button_name', 'image', 'area', 'is_published']
+    prepopulated_fields = {'slug': ('edu_area_name',)}
+    list_display = ('id', 'edu_area_name', 'slug', 'button_name', 'area', 'is_published')
+    list_display_links = ('edu_area_name', )    
     ordering = ['id']
     list_editable = ('is_published', )
     list_per_page = 10
     actions = ['set_published', 'set_draft']
-    search_fields = ['title']
+    search_fields = ['edu_area_name']
 
     @admin.action(description="Опубликовать выбранные записи")
     def set_published(self, request, queryset):
@@ -65,15 +65,15 @@ class Technicians_courcesAdmin(admin.ModelAdmin):
 
 @admin.register(Training_parts)
 class Training_partsAdmin(admin.ModelAdmin):
-    fields = ['title', 'slug', 'description', 'area', 'level', 'image', 'is_published']
-    prepopulated_fields = {'slug': ('title',)}
-    list_display = ('id', 'title', 'slug', 'area', 'level', 'is_published')
-    list_display_links = ('title', )    
+    fields = ['program_name', 'slug', 'description', 'edu_area_name', 'image', 'is_published']
+    prepopulated_fields = {'slug': ('program_name',)}
+    list_display = ('id', 'program_name', 'slug',  'edu_area_name', 'is_published')
+    list_display_links = ('program_name', )    
     ordering = ['id']
     list_editable = ('is_published', )
     list_per_page = 10
     actions = ['set_published', 'set_draft']
-    search_fields = ['title']
+    search_fields = ['program_name']
 
     @admin.action(description="Опубликовать выбранные записи")
     def set_published(self, request, queryset):
@@ -89,15 +89,15 @@ class Training_partsAdmin(admin.ModelAdmin):
 
 @admin.register(Training_chapters)
 class Training_chaptersAdmin(admin.ModelAdmin):
-    fields = ['title', 'slug', 'description', 'area', 'level', 'chapter', 'image', 'section', 'content_type', 'video', 'is_published']
-    prepopulated_fields = {'slug': ('title',)}
-    list_display = ('id', 'title', 'slug', 'area', 'level', 'section','chapter', 'content_type', 'is_published')
-    list_display_links = ('title', )    
+    fields = ['chapter_name', 'slug', 'description', 'program_name', 'is_published']
+    prepopulated_fields = {'slug': ('chapter_name',)}
+    list_display = ('id', 'chapter_name', 'slug', 'program_name',  'is_published')
+    list_display_links = ('chapter_name', )    
     ordering = ['id']
     list_editable = ('is_published', )
     list_per_page = 10
     actions = ['set_published', 'set_draft']
-    search_fields = ['title']
+    search_fields = ['chapter_name']
 
     @admin.action(description="Опубликовать выбранные записи")
     def set_published(self, request, queryset):
@@ -112,15 +112,15 @@ class Training_chaptersAdmin(admin.ModelAdmin):
 
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
-    fields = ['title', 'slug', 'description', 'area', 'level', 'chapter', 'image', 'section', 'content_type', 'video', 'file', 'is_published']
-    prepopulated_fields = {'slug': ('title',)}
-    list_display = ('id', 'title', 'slug', 'area', 'level', 'section','chapter', 'content_type', 'is_published')
-    list_display_links = ('title', )    
+    fields = ['chapter_name', 'slug', 'description','content_type', 'video', 'file', 'is_published']
+    prepopulated_fields = {'slug': ('chapter_name',)}
+    list_display = ('id', 'chapter_name', 'slug', 'content_type', 'is_published')
+    list_display_links = ('chapter_name', )    
     ordering = ['id']
     list_editable = ('is_published', )
     list_per_page = 10
     actions = ['set_published', 'set_draft']
-    search_fields = ['title']
+    search_fields = ['chapter_name']
 
     @admin.action(description="Опубликовать выбранные записи")
     def set_published(self, request, queryset):

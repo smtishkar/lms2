@@ -19,7 +19,7 @@
         {% if section.is_published %}
         <div class="col">
             <div class="img-box">
-                <img class="img" src="{{ section.image }}" class="img-thumbnail" alt="{{ section.title }}">
+                <img class="img" src="{{ section.image.url }}" class="img-thumbnail" alt="{{ section.section_name }}">
             </div>
             <p class="area-description">{{ section.description }}</p>
             <a href="{% url 'section' section.slug %}">

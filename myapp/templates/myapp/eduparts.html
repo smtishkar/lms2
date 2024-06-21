@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         {% for part in parts %}
-        {% if part.level == cources.title and part.is_published %}
+        {% if part.edu_area_name == cources.edu_area_name and part.is_published %}
         <div class="col">
             <div class="img-box">
                 <img src="{{ part.image.url }}" class="img-thumbnail" alt="{{ part.title }}">
@@ -15,7 +15,7 @@
             <p>{{ part.description }}</p>
             <a href="{{ part.get_absolute_url }}">
                 <div class="d-grid gap-2 col-11 mx-auto">
-                    <button class="btn btn-primary" type="button">{{ part.title }}</button>
+                    <button class="btn btn-primary" type="button">{{ part.program_name }}</button>
                 </div>
             </a>
         </div>

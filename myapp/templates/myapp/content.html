@@ -11,9 +11,8 @@
     <div class="left-sidebar">
         <ul class="list-group list-group-flush">
             {% for part in parts %}
-            {% if cources.chapter == part.chapter and part.is_published %}
-
-            <li><a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.title }}</a></li>
+            {% if cources.program_name == part.program_name and part.is_published %}
+            <li><a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.chapter_name }}</a></li>
             {% for edu_results in edu_results_list %}
             {% if edu_results.title == part.slug and edu_results.username == request.user.username%}
                 <p>Изучено</p>
@@ -27,17 +26,17 @@
         <div >
             
             {% for content in contents %}
-            {% if content.title == cources.title and content.is_published %}
+            {% if content.chapter_name == cources.chapter_name and content.is_published %}
 
             {% if content.content_type == 'presentation' %}
-            <h2>Презентация по теме: {{ content.title }}</h2>
+            <h2>Презентация по теме: {{ content.chapter_name }}</h2>
 
             <iframe src="{{ content.file.url }} #toolbar=0" height="800" width="1000" frameborder="0"></iframe>
             <hr>
             {% endif %}
             
             {% if content.content_type == 'video' %}
-            <h2>Видео по теме: {{ content.title }}</h2>
+            <h2>Видео по теме: {{ content.chapter_name }}</h2>
             <div class="video-on-page">
                 {% video content.video 'tiny' %}
             </div>
