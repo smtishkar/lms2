@@ -9,16 +9,20 @@
 
 <div class="page-area">
     <div class="left-sidebar">
-        <ul class="list-group list-group-flush">
+        <ul>
             {% for part in parts %}
-            {% if cources.program_name == part.program_name and part.is_published %}
-            <li><a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.chapter_name }}</a></li>
-            {% for edu_results in edu_results_list %}
-            {% if edu_results.title == part.slug and edu_results.username == request.user.username%}
-                <p>Изучено</p>
+                {% if cources.program_name == part.program_name and part.is_published %}
+                    <div class="list-content">
+                        <h5>
+                            <li><a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.chapter_name }}</a></li>
+                        </h5>
+                    {% for edu_results in edu_results_list %}
+                        {% if edu_results.title == part.slug and edu_results.username == request.user.username%}
+                            <h5 class="status-done">Изучено</h5>
+                        {% endif %}
+                    {% endfor %}
+            </div>
                 {% endif %}
-                {% endfor %}
-            {% endif %}
             {% endfor %}
         </ul>
     </div>
@@ -31,7 +35,7 @@
             {% if content.content_type == 'presentation' %}
             <h2>Презентация по теме: {{ content.chapter_name }}</h2>
 
-            <iframe src="{{ content.file.url }} #toolbar=0" height="800" width="1000" frameborder="0"></iframe>
+            <iframe src="{{ content.file.url }} #toolbar=0" height="800" width="850" frameborder="0"></iframe>
             <hr>
             {% endif %}
             

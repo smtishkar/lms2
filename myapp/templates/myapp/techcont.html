@@ -52,10 +52,9 @@
                 <div class="job-title-text">
                     <h4>
                         {{ training.training_name }}
-                        
                     </h4>
+                    <p> {{ training.training_start_date }} - {{ training.training_end_date }} </p>
                 </div>
-                <p> {{ training.training_start_date }} - {{ training.training_end_date }} </p>
                 
                 <div class="but-cert-app">
                     <a href="{% url 'training_appointment' training.id %}">
@@ -68,20 +67,22 @@
                 <div>
                     <h4>
                         <div class="training-box-title">
-                            <p>Всего мест</p>
-                            <p>Записано</p>
-                        </div>
-                        <div class="training-box-places">
-                            <h1>{{ training.max_participants }}</h1>
-
-                            {% for participant in participants %}
-                            {% if training.training_id == participant.training_id %} 
-                            <div>
-                                <h1>{{ participant.the_count }}</h1>
+                            <div class="number-participants">
+                                <p>Всего мест</p>
+                                <h1>{{ training.max_participants }}</h1>
                             </div>
+                            <div class="number-participants">
+                                <p>Записано</p>
+                                {% for participant in participants %}
+                                    {% if training.training_id == participant.training_id %} 
+                                        <div>
+                                            <h1>{{ participant.the_count }}</h1>
+                                        </div>
+                                    {% endif %}     
+                                {% endfor %}
+                            </div>
+
                         </div>
-                        {% endif %}     
-                        {% endfor %}
                     </h4>
                 </div>
             </div>
@@ -102,3 +103,23 @@
         <!-- <a href="{% url 'cert_appointment/app/1/' %}"> -->
             <!-- <a href="{% url 'training_appointment' training.id %}"> -->
 
+<!-- 
+
+                <div>
+                    <h4>
+                        <div class="training-box-title">
+                            <p>Всего мест</p>
+                            <p>Записано</p>
+                        </div>
+                        <div class="training-box-places">
+                            <h1>{{ training.max_participants }}</h1>
+
+                            {% for participant in participants %}
+                            {% if training.training_id == participant.training_id %} 
+                            <div>
+                                <h1>{{ participant.the_count }}</h1>
+                            </div>
+                        </div>
+                        {% endif %}     
+                        {% endfor %}
+                    </h4> -->

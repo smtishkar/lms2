@@ -341,8 +341,8 @@ class Training_shedule(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name = "6. Запись на тренинги"
-        verbose_name_plural = "6. Запись на тренинги"
+        verbose_name = "8. Список тренингов"
+        verbose_name_plural = "8. Список тренингов"
         ordering = ['training_name', 'training_start_date']
 
 
