@@ -109,14 +109,21 @@ class UserPasswordChange(PasswordChangeView):
     success_url = reverse_lazy("users:password_change_done")
     template_name = "users/password_change_form.html"
 
+
+
 def profile_search(request):
-    users = User.objects.all()
-    print(users)
+    # users = User.objects.all()
+    # print(users)
+    # n= User.objects.get(username="test1")
+    # print(n.pk)
     if request.method == 'POST':
         name = request.POST.get("name", "Undefined")
-        print(name)
-        uri = reverse('users:profile', args=(name,))
-        print(uri)
+        n= User.objects.get(username=name)
+        # print(name)
+        # name_id = users.get(id)
+        # print(n)
+        uri = reverse('users:profile', args=(n.pk,))
+        # print(uri)
         return HttpResponseRedirect(uri)
         # return HttpResponseRedirect(reverse('users:profile_search', args=[1]))
     return render(request, 'users/profile_search.html')

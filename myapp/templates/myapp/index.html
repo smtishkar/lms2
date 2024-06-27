@@ -12,8 +12,16 @@
 </div> -->
 
 <h1 class="test">Это сайт Академии Тойота предназначенный для самостоятельного изучения учебных материалов и записи на тренинги</h1>
+<div>
+    <hr>
+    <img class="main-img" src="../../../media/images/Toyota-Service-Photo-Lift.jpg" alt="">
+</div>
+    <hr>
+    <div class="content-area-title">
+        <h1 class="test"> Разделы сайта </h1>
+    </div>
 
-<div class="container">
+<div class="container-content">
     <div class="row">
         {% for section in sections %}
         {% if section.is_published %}
@@ -31,6 +39,7 @@
         {% endif %}
             {%  endfor %}
     </div>
+    <hr>
 </div>
 
 {% endblock content %}

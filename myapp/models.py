@@ -471,29 +471,29 @@ class Rights_access(models.Model):
 
 
 
-class Rights_access(models.Model):
+# class Rights_access(models.Model):
 
-    class Status(models.IntegerChoices):
-        DRAFT = 0, 'Черновик'
-        PUBLISHED = 1, 'Опубликовано'
+#     class Status(models.IntegerChoices):
+#         DRAFT = 0, 'Черновик'
+#         PUBLISHED = 1, 'Опубликовано'
 
-    rights_title = models.CharField(max_length=250)
-    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
-                                       default=Status.DRAFT, verbose_name="Статус")
+#     rights_title = models.CharField(max_length=250)
+#     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+#                                        default=Status.DRAFT, verbose_name="Статус")
 
-    def __str__(self):
-        return self.rights_title
+#     def __str__(self):
+#         return self.rights_title
     
-    # def get_absolute_url(self):
-    #     return reverse('appointment', kwargs={'app_id': self.slug})          ## Наверное тут надо что-то поменять
+#     # def get_absolute_url(self):
+#     #     return reverse('appointment', kwargs={'app_id': self.slug})          ## Наверное тут надо что-то поменять
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(translate_to_eng(self.rights_title))
-        super().save(*args, **kwargs)
+#     def save(self, *args, **kwargs):
+#         self.slug = slugify(translate_to_eng(self.rights_title))
+#         super().save(*args, **kwargs)
     
-    class Meta:
-        verbose_name = "9. Права доступа"
-        verbose_name_plural = "9. Права доступа"
+#     class Meta:
+#         verbose_name = "9. Права доступа"
+#         verbose_name_plural = "9. Права доступа"
 
 
 
@@ -507,6 +507,7 @@ class Edu_Results(models.Model):
     # title = models.ForeignKey('Content', on_delete=models.DO_NOTHING)
     username = models.CharField(max_length=250)
     title = models.CharField(max_length=250)
+    # program_name = models.ForeignKey('Training_chapters', on_delete=models.DO_NOTHING)
     # area = models.CharField(max_length=250)
     # level = models.CharField(max_length=250)
     # chapter = models.CharField(max_length=250)
