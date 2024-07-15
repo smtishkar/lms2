@@ -4,15 +4,18 @@
 {% block content %}
 
 <h1 class="test"> {{ cources.title }}</h1>
-<div class="container">
+<div class="container-content">
     <div class="row">
         {% for part in parts %}
         {% if part.edu_area_name == cources.edu_area_name and part.is_published %}
         <div class="col">
             <div class="img-box">
-                <img src="{{ part.image.url }}" class="img-thumbnail" alt="{{ part.title }}">
+                <img class="img" src="{{ part.image.url }}" class="img-thumbnail" alt="{{ part.title }}">
             </div>
-            <p>{{ part.description }}</p>
+            <div class="description-box">
+
+                <p class="area-description">{{ part.description }}</p>
+            </div>
             <a href="{{ part.get_absolute_url }}">
                 <div class="d-grid gap-2 col-11 mx-auto">
                     <button class="btn btn-primary" type="button">{{ part.program_name }}</button>

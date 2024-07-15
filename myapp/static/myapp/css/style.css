@@ -427,7 +427,9 @@
 
 
 .test {
-    color: red;
+    color: rgb(31, 27, 27);
+    display: inline-block;
+    text-align: center
 }
 
 .side2 {
@@ -473,10 +475,14 @@
 }
 
 .col{
+  padding: 20px;
     gap: 10px;
     display: flex;
     /* width: 400px; */
     flex-direction: column;
+    border: black solid 1px;
+    border-radius: 15px;
+    background-color: rgba(231, 228, 224, 0.932);
 }
 
 .col-cert{
@@ -573,7 +579,7 @@
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 4; /* number of lines to show */
-            line-clamp: 2; 
+            line-clamp: 3; 
     -webkit-box-orient: vertical;
 }
 
@@ -639,4 +645,8 @@ ul, li {
     color: rgb(17, 139, 17);
     display: flex;
     justify-content: center;
+}
+
+.description-box{
+  height: 200px;
 }

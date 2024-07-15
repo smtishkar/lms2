@@ -5,7 +5,7 @@
 
 <h1 class="test">Вы находитесь в разделе "{{ slug_area.button_name }}"</h1>
 
-<div class="container">
+<div class="container-content">
     <div class="row">
         {% if slug_area.slug == 'technical' or slug_area.slug == 'non_technical' %}      
 
@@ -15,7 +15,10 @@
             <div class="img-box">
                 <img class="img"  src="{{ cource.image.url }}" class="img-thumbnail" alt="{{ cource.edu_programs_name }}">
             </div>
-            <p class="area-description">{{ cource.description }}</p>
+            <div class="description-box">
+                <p class="area-description">{{ cource.description }}</p>
+
+            </div>
             <a href="{{ cource.get_absolute_url }}">
                 <div class="d-grid gap-2 col-11 mx-auto">
                     <button class="btn btn-primary" type="button">{{ cource.button_name }}</button>
