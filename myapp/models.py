@@ -533,3 +533,44 @@ class Edu_Results(models.Model):
     # def save(self, *args, **kwargs):
     #     self.slug = slugify(translate_to_eng(self.title))
     #     super().save(*args, **kwargs)
+
+
+
+class Cert_Results(models.Model):
+
+    # class Status(models.IntegerChoices):
+    #     DRAFT = 0, 'Черновик'
+    #     PUBLISHED = 1, 'Опубликовано'
+
+    # username = models.ForeignKey('users.User', on_delete=models.DO_NOTHING)
+    # title = models.ForeignKey('Content', on_delete=models.DO_NOTHING)
+    user_id = models.CharField(max_length=250)
+    cerification_name = models.CharField(max_length=250)
+    create_at = models.DateTimeField(auto_now_add=True)
+    # program_name = models.ForeignKey('Training_chapters', on_delete=models.DO_NOTHING)
+    # area = models.CharField(max_length=250)
+    # level = models.CharField(max_length=250)
+    # chapter = models.CharField(max_length=250)
+    # section = models.CharField(max_length=250, null=True)
+    # description = models.TextField()
+    # image = models.ImageField(upload_to='images/')
+    # content_type = models.CharField(max_length=250)
+    # video = EmbedVideoField(blank=True)
+    # slug = models.SlugField(max_length=255, db_index=True)
+    # is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+    #                                    default=Status.DRAFT, verbose_name="Статус")
+
+    class Meta:
+        verbose_name = "10. Результаты Сертификации"
+        verbose_name_plural = "10. Результаты Сертификации"
+
+    def __str__(self):
+        return self.user_id
+
+    def get_absolute_url(self):
+        return reverse('fin_content', kwargs={'fin_content_slug': self.slug})          ## post это имя маршрута в urls
+
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(translate_to_eng(self.title))
+    #     super().save(*args, **kwargs)
+    

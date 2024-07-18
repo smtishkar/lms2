@@ -1,0 +1,27 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<h1>Ниже указаны ваши сертификаты:</h1>
+
+
+
+
+
+    {% for cert in cert_results %}
+        {% if profile.username == cert.user_id%}
+        <div class="certification-line">
+            <div>
+                <h5>Программа обучения: {{cert.cerification_name}}</h5> 
+
+            </div>
+                <h5>
+                    Дата сертификации: {{cert.create_at}} 
+
+                </h5>
+        </div>
+        <!-- {{cert.user_id}} -->
+       
+        {% endif %}
+    {% endfor%}
+
+{% endblock %}

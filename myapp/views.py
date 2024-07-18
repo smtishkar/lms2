@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from myapp.forms import CertificationAppointmentForm,TrainingAppointmentForm
-from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants, Content, Edu_Results
+from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants, Content, Edu_Results, Cert_Results
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404
 from .services import open_file
@@ -277,3 +277,15 @@ def test_pdf(request):
 
 def success_appointment(request):
     return render(request, 'myapp/success_appointment.html')
+
+
+def certification_results(request):
+    profile = User.objects.get(username=request.user)
+    # print(profile)
+    cert_results = Cert_Results.objects.all()
+    data = {
+            'cert_results': cert_results,
+            'profile': profile
+        }
+
+    return render(request, 'myapp/certification_results.html', data)

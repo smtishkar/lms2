@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Content, Video, Site_sections, Technicians_cources, Training_chapters, Training_parts, Certification_appointment, Job_titles, Dealers, Edu_programs, Training_shedule, Training_participants, Rights_access
+from .models import Content, Video, Site_sections, Technicians_cources, Training_chapters, Training_parts, Certification_appointment, Job_titles, Dealers, Edu_programs, Training_shedule, Training_participants, Rights_access, Cert_Results
 from django.contrib import messages
 
 # Register your models here.
@@ -304,6 +304,26 @@ class Rights_accessAdmin(admin.ModelAdmin):
         self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
 
 
+@admin.register(Cert_Results)
+class Certification_ResultsAdmin(admin.ModelAdmin):
+    fields = ['user_id', 'cerification_name']
+    list_display = ('user_id', 'cerification_name', 'create_at',)
+    list_display_links = ('user_id', )    
+    ordering = ['user_id']
+    # list_editable = ('is_published', )
+    list_per_page = 10
+    # actions = ['set_published', 'set_draft']
+    search_fields = ['user_id']
+
+    # @admin.action(description="Опубликовать выбранные записи")
+    # def set_published(self, request, queryset):
+    #     count = queryset.update(is_published=Dealers.Status.PUBLISHED)
+    #     self.message_user(request, f"Изменено {count} записей.")
+
+    # @admin.action(description="Снять с публикации выбранные записи")
+    # def set_draft(self, request, queryset):
+    #     count = queryset.update(is_published=Dealers.Status.DRAFT)
+    #     self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
 
 
 admin.site.register(Video)
