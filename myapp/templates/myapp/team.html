@@ -1,0 +1,32 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<h1>Команда:</h1>
+
+
+
+
+<div>
+
+    {% for team in teams %}
+    <div class="certification-line">
+        <p>{{ team.username }} {{team.first_name}} {{team.last_name}} {{ team.dlr}} {{ team.job_title }}</p>
+    </div>
+    {% for cert in cert_results %}
+    <div>
+
+        {% if team.username == cert.user_id and team.job_title == 'technician' and cert.cerification_name == 'TT' %}
+        {{ cert.cerification_name}}
+        {% elif team.username == cert.user_id and team.job_title == 'service advisor' and cert.cerification_name == 'SA' %}
+        {{ cert.cerification_name}}
+        {% elif team.username == cert.user_id and team.job_title == 'diagnosis technician' and cert.cerification_name == 'DT' %}
+        {{ cert.cerification_name}}
+        {% endif%}
+        {% endfor%}
+        {% endfor%}
+        
+    </div>
+</div>
+{% endblock %}
+
+

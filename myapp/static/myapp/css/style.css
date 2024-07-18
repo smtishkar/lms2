@@ -665,3 +665,12 @@ ul, li {
   background-color: #adaaaa;
   justify-content: space-around;
 }
+
+.team-line{
+  display: flex;
+  /* display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 2fr;
+  gap: 30px;
+  row-gap: 40px; */
+}

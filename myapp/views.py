@@ -77,7 +77,7 @@ def get_site_sections(request):
     # return render(request, 'myapp/index.html', {'sections': Site_sections.objects.all(), 'videos':Videos.objects.all()  })
     return render(request, 'myapp/index.html', data)
 
-
+@login_required
 def get_technician_content(request, part_slug):             ## переименовать метод т.к. он не только для механиков
     # chapters = Training_chapters.objects.filter()
     cources = Technicians_cources.objects.all()
@@ -102,7 +102,7 @@ def get_technician_content(request, part_slug):             ## переимен�
     return render(request, 'myapp/techcont.html', data)
     # return render(request, 'myapp/techcont.html', {'cources': Technicians_cources.objects.all()})
 
-
+@login_required
 def get_education_part(request, part_slug):
     # part = get_object_or_404(Training_parts, slug=part_slug)
     # cources = Technicians_cources.objects.all()
@@ -124,7 +124,7 @@ def get_education_part(request, part_slug):
     return render(request, 'myapp/eduparts.html', data)
     # return render(request, 'myapp/eduparts.html', {'parts': Training_parts.objects.all()})
 
-
+@login_required
 def get_training_content(request, content_slug):
 
     parts = Training_chapters.objects.all()
@@ -151,7 +151,7 @@ def get_training_content(request, content_slug):
     # return render(request, 'myapp/eduparts.html', {'parts': Training_parts.objects.all()})
 
 
-
+@login_required
 def get_content_to_study(request, fin_content_slug):
 
     parts = Training_chapters.objects.all()
@@ -185,7 +185,7 @@ def get_tt_level_content(request):
     return render(request, 'myapp/tt_level.html', {'cources': Technicians_cources.objects.all(), 'videos':Videos.objects.all()})
 
 
-
+@login_required
 def make_cert_appointment(request,app_id):
     appointment = Certification_appointment.objects.get(pk=app_id)
     if request.method == 'POST':
@@ -209,7 +209,7 @@ def make_cert_appointment(request,app_id):
 
     return render(request, 'myapp/certappform.html', data)
 
-
+@login_required
 def make_training_appointment(request,app_id):
     appointment = Training_shedule.objects.get(pk=app_id)
     print(appointment.training_id)
@@ -274,11 +274,11 @@ def test_pdf(request):
         }
     return render(request, 'myapp/test.html', data)
 
-
+@login_required
 def success_appointment(request):
     return render(request, 'myapp/success_appointment.html')
 
-
+@login_required
 def certification_results(request):
     profile = User.objects.get(username=request.user)
     # print(profile)
@@ -289,3 +289,23 @@ def certification_results(request):
         }
 
     return render(request, 'myapp/certification_results.html', data)
+
+
+
+@login_required
+def get_team(request):
+    profile = User.objects.get(username=request.user)
+    dlr = profile.dlr
+    teams = User.objects.filter(dlr=dlr)
+    # teams = User.objects.all()
+    print(dlr)
+    # print(teams)
+    cert_results = Cert_Results.objects.all()
+    
+    data = {
+            'teams': teams,
+            'profile': profile,
+            'cert_results': cert_results
+        }
+
+    return render(request, 'myapp/team.html', data)

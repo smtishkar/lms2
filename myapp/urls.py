@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.get_site_sections, name = 'index'),
     path('appointment_done/', views.success_appointment, name = 'success_appointment'),  
     path('cert_results/', views.certification_results, name = 'cert_results'),
+    path('team/', views.get_team, name = 'team'),
     path('<slug:part_slug>/', views.get_technician_content, name = 'section'),
     path('area/<slug:part_slug>/', views.get_education_part, name = 'part'),                  
     path('edu_program/<slug:content_slug>/', views.get_training_content, name = 'content'),   
