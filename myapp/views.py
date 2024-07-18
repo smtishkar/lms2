@@ -240,8 +240,9 @@ def make_training_appointment(request,app_id):
             # appointment.save()
             # appointment.actual_num_participants = appointment.actual_num_participants+1
             # appointment.save()
-            messages.success(request, 'some text')
+            # messages.success(request, 'some text')
             # return redirect('/', pk=appointment.pk)
+            return redirect ('success_appointment')
     else:
         form = TrainingAppointmentForm()
         # messages.error(request, 'Что-то пошло не так!!!')
@@ -273,3 +274,6 @@ def test_pdf(request):
         }
     return render(request, 'myapp/test.html', data)
 
+
+def success_appointment(request):
+    return render(request, 'myapp/success_appointment.html')

@@ -9,12 +9,12 @@
 
 <div class="page-area">
     <div class="left-sidebar">
-        <ul>
+        <!-- <ul> -->
             {% for part in parts %}
                 {% if part.program_name == cources.program_name and part.is_published %}
                     <div class="list-content">
                         <h5>
-                            <li><a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.chapter_name }}</a></li>
+                            <a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.chapter_name }}</a>
                         </h5>
                         {% for edu_results in edu_results_list %}
                             {% if edu_results.title == part.slug and edu_results.username == request.user.username%}
@@ -24,13 +24,14 @@
                     </div>
                     {% endif %}
                 {% endfor %}
-        </ul>
+        <!-- </ul> -->
     </div>
     <div class="container">
-        <div class="page-row">
-            <p>
-                {{ cources.description}}
-            </p>
+        <div class="box-program-description">
+                <h4>
+                    {{ cources.description}}
+
+                </h4>
 
         </div>
     </div>

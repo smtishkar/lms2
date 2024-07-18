@@ -638,6 +638,7 @@ ul, li {
     flex-direction: column;
     margin-bottom: 10px;
     background-color: #d3caca;
+    padding-left: 5px;
   }
 
 
@@ -649,4 +650,9 @@ ul, li {
 
 .description-box{
   height: 200px;
+}
+
+.box-program-description{
+  padding-left: 20px;
+  text-align: center
 }

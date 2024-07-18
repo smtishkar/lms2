@@ -9,12 +9,12 @@
 
 <div class="page-area">
     <div class="left-sidebar">
-        <ul>
+        <!-- <ul> -->
             {% for part in parts %}
                 {% if cources.program_name == part.program_name and part.is_published %}
                     <div class="list-content">
                         <h5>
-                            <li><a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.chapter_name }}</a></li>
+                            <a class="list-group-item" href="{% url 'study' part.slug %}">{{ part.chapter_name }}</a>
                         </h5>
                     {% for edu_results in edu_results_list %}
                         {% if edu_results.title == part.slug and edu_results.username == request.user.username%}
@@ -24,7 +24,7 @@
             </div>
                 {% endif %}
             {% endfor %}
-        </ul>
+        <!-- </ul> -->
     </div>
     <div class="container">
         <div >
@@ -35,7 +35,7 @@
             {% if content.content_type == 'presentation' %}
             <h2>Презентация по теме: {{ content.chapter_name }}</h2>
 
-            <iframe src="{{ content.file.url }} #toolbar=0" height="800" width="850" frameborder="0"></iframe>
+            <iframe src="{{ content.file.url }} #toolbar=0" height="800" width="750" frameborder="0"></iframe>
             <hr>
             {% endif %}
             
