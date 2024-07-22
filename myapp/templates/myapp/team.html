@@ -6,27 +6,64 @@
 
 
 
-<div>
+<div class="team-line">
+    <div class="team-line-test-head">
+
+        <div>
+            <h5>ID сотрудника</h5>
+        </div>
+        <div>
+            <h5>Имя</h5>
+        </div>
+        <div>
+            <h5>Фамилия</h5>
+        </div>
+        <div>
+            <h5>ДЦ</h5>
+        </div>
+        <div>
+            <h5>должность</h5>
+        </div>
+        <div>
+            <h5>Сертификат</h5>
+        </div>
+    </div>
 
     {% for team in teams %}
-    <div class="certification-line">
-        <p>{{ team.username }} {{team.first_name}} {{team.last_name}} {{ team.dlr}} {{ team.job_title }}</p>
-    </div>
-    {% for cert in cert_results %}
-    <div>
+        <div class="team-line-test">
+            <div>
+                <h6>{{ team.username }}</h6>
+            </div>
+            <div>
+                <h6>{{team.first_name}}</h6>
+            </div>
+            <div>
+                <h6>{{team.last_name}}</h6>
+            </div>
+            <div>
+                <h6>{{ team.dlr}}</h6>
+            </div>
+            <div>
+                <h6>{{ team.job_title }}</h6>
+            </div>
 
-        {% if team.username == cert.user_id and team.job_title == 'technician' and cert.cerification_name == 'TT' %}
-        {{ cert.cerification_name}}
-        {% elif team.username == cert.user_id and team.job_title == 'service advisor' and cert.cerification_name == 'SA' %}
-        {{ cert.cerification_name}}
-        {% elif team.username == cert.user_id and team.job_title == 'diagnosis technician' and cert.cerification_name == 'DT' %}
-        {{ cert.cerification_name}}
-        {% endif%}
-        {% endfor%}
-        {% endfor%}
-        
-    </div>
+
+        {% for cert in cert_results %}
+
+                {% if team.username == cert.user_id and team.job_title == 'technician' and cert.cerification_name == 'TT' %}
+                {{ cert.cerification_name}}
+                {% elif team.username == cert.user_id and team.job_title == 'service advisor' and cert.cerification_name == 'SA' %}
+                {{ cert.cerification_name}}
+                {% elif team.username == cert.user_id and team.job_title == 'diagnosis technician' and cert.cerification_name == 'DT' %}
+                {{ cert.cerification_name}}
+                {% endif%}
+
+                {% endfor%}
+        </div>
+
+    {% endfor%}
 </div>
+        
 {% endblock %}
 
 
