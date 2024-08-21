@@ -1,8 +1,9 @@
 {% extends 'myapp/base.html' %}
 
 {% block content %}
-<h1>Команда:</h1>
-
+<h1>Раздел команда:</h1>
+<hr>
+<h3>Базовая сертификация ключевого персонала:</h3>
 
 
 
@@ -30,6 +31,7 @@
     </div>
 
     {% for team in teams %}
+    {% if team.job_title == 'technician' or team.job_title == 'service advisor' or team.job_title == 'diagnosis technician'%}
         <div class="team-line-test">
             <div>
                 <h6>{{ team.username }}</h6>
@@ -49,7 +51,7 @@
 
 
         {% for cert in cert_results %}
-
+           
                 {% if team.username == cert.user_id and team.job_title == 'technician' and cert.cerification_name == 'TT' %}
                 {{ cert.cerification_name}}
                 {% elif team.username == cert.user_id and team.job_title == 'service advisor' and cert.cerification_name == 'SA' %}
@@ -57,13 +59,60 @@
                 {% elif team.username == cert.user_id and team.job_title == 'diagnosis technician' and cert.cerification_name == 'DT' %}
                 {{ cert.cerification_name}}
                 {% endif%}
-
                 {% endfor%}
+                {% endif%}
         </div>
 
     {% endfor%}
+    <hr>
+    <br>
+    <h3>Список всего персонала дилерского центра:</h3>
+    <div class="team-line-test-head">
+
+        <div>
+            <h5>ID сотрудника</h5>
+        </div>
+        <div>
+            <h5>Имя</h5>
+        </div>
+        <div>
+            <h5>Фамилия</h5>
+        </div>
+        <div>
+            <h5>ДЦ</h5>
+        </div>
+        <div>
+            <h5>должность</h5>
+        </div>
+        <div>
+            <h5>2ая должность</h5>
+        </div>
+    </div>
+    {% for team in teams %}
+        <div class="team-line-test">
+            <div>
+                <h6>{{ team.username }}</h6>
+            </div>
+            <div>
+                <h6>{{team.first_name}}</h6>
+            </div>
+            <div>
+                <h6>{{team.last_name}}</h6>
+            </div>
+            <div>
+                <h6>{{ team.dlr}}</h6>
+            </div>
+            <div>
+                <h6>{{ team.job_title }}</h6>
+            </div>
+            <div>
+                <h6>{{ team.job_title2 }}</h6>
+            </div>
+        </div>
+
+    {% endfor%}
+    <hr>
 </div>
-        
 {% endblock %}
 
 

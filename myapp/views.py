@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from myapp.forms import CertificationAppointmentForm,TrainingAppointmentForm
-from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants, Content, Edu_Results, Cert_Results
+from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants, Content, Edu_Results, Cert_Results, Info
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404
 from .services import open_file
@@ -309,3 +309,33 @@ def get_team(request):
         }
 
     return render(request, 'myapp/team.html', data)
+
+
+@login_required
+def get_info(request):
+    info = Info.objects.all()
+    # profile = User.objects.get(username=request.user)
+    # dlr = profile.dlr
+    # teams = User.objects.filter(dlr=dlr)
+    # teams = User.objects.all()
+    # print(dlr)
+    # print(teams)
+    # cert_results = Cert_Results.objects.all()
+    
+    data = {
+            'info': info,
+
+        }
+
+    return render(request, 'myapp/info.html', data)
+
+@login_required
+def get_info_details (request, info_slug):
+    # info = Info.objects.all()
+    concreate_news = Info.objects.filter(slug=info_slug)
+    print(concreate_news)
+    data = {
+        'info': concreate_news,
+
+    }
+    return render(request, 'myapp/info_details.html', data)

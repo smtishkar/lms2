@@ -1,0 +1,35 @@
+{% extends 'myapp/base.html' %}
+<!-- {% load static %}   -->
+
+{% block content %}
+
+<h1 class="test">Вы находитесь в разделе Информация</h1>
+<br>
+
+{% for i in info %}
+
+<div>
+    
+</div>
+<h2>
+
+    {{i.title}}
+</h2>
+
+    {{ i.content }}
+
+
+
+    <a href="{% url 'info' %}">
+
+        <div>
+            <button type="button" class="btn btn-primary">Назад</button>
+        </div>
+    </a>
+
+<hr>
+{% endfor%}
+
+
+
+{% endblock content %}

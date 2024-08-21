@@ -1,0 +1,37 @@
+{% extends 'myapp/base.html' %}
+<!-- {% load static %}   -->
+
+{% block content %}
+
+<h1 class="test">Вы находитесь в разделе Информация</h1>
+<br>
+
+{% for i in info %}
+
+<div>
+    
+</div>
+<h2>
+
+    {{i.title}}
+</h2>
+
+    {{ i.short_description }}
+    <!-- {{ i.slug}} -->
+
+    <a href="{% url 'info_detailes' i.slug %}">
+
+        <div>
+            <button type="button" class="btn btn-primary">Читать</button>
+        </div>
+    </a>
+<hr>
+{% endfor%}
+
+
+
+{% endblock content %}
+
+
+<!-- <a href="{% url 'info' i.slug %}">123</a> -->
+

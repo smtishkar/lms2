@@ -42,7 +42,8 @@
             {% if content.content_type == 'video' %}
             <h2>Видео по теме: {{ content.chapter_name }}</h2>
             <div class="video-on-page">
-                {% video content.video 'tiny' %}
+                <!-- {% video content.video 'tiny' %} -->
+                <iframe width="720" height="405" src="{{ content.video }}" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
             </div>
             <br>
            

@@ -68,8 +68,8 @@ class Job_titles(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name = "6. Список должностей"
-        verbose_name_plural = "6. Список должностей"
+        verbose_name = "06. Список должностей"
+        verbose_name_plural = "06. Список должностей"
 
 
 
@@ -102,8 +102,8 @@ class Site_sections(models.Model):
     
 
     class Meta:
-        verbose_name = "1. Разделы сайта"
-        verbose_name_plural = "1. Разделы сайта"
+        verbose_name = "01. Разделы сайта"
+        verbose_name_plural = "01. Разделы сайта"
 
 
 class Technicians_cources(models.Model):
@@ -126,8 +126,8 @@ class Technicians_cources(models.Model):
                                        default=Status.DRAFT, verbose_name="Статус")
 
     class Meta:
-        verbose_name = "2. Направления обучения"
-        verbose_name_plural = "2. Направления обучения"
+        verbose_name = "02. Направления обучения"
+        verbose_name_plural = "02. Направления обучения"
 
 
     def __str__(self):
@@ -161,8 +161,8 @@ class Training_parts(models.Model):
                                        default=Status.DRAFT, verbose_name="Статус")
 
     class Meta:
-        verbose_name = "3. Содержание программы обучения"
-        verbose_name_plural = "3. Содержание программы обучения"
+        verbose_name = "03. Содержание программы обучения"
+        verbose_name_plural = "03. Содержание программы обучения"
 
     def __str__(self):
         return self.program_name
@@ -197,8 +197,8 @@ class Training_chapters(models.Model):
                                        default=Status.DRAFT, verbose_name="Статус")
 
     class Meta:
-        verbose_name = "4. Содержание конкретной программы обучения"
-        verbose_name_plural = "4. Содержание конкретной программы обучения"
+        verbose_name = "04. Содержание конкретной программы обучения"
+        verbose_name_plural = "04. Содержание конкретной программы обучения"
 
     def __str__(self):
         return self.chapter_name
@@ -228,15 +228,16 @@ class Content(models.Model):
     description = models.TextField()
     # image = models.ImageField(upload_to='images/')
     content_type = models.CharField(max_length=250)
-    video = EmbedVideoField(blank=True)
+    # video = EmbedVideoField(blank=True)
+    video = models.TextField()
     file = models.FileField(upload_to='files/', blank=True)
     slug = models.SlugField(max_length=255, db_index=True)
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
                                        default=Status.DRAFT, verbose_name="Статус")
 
     class Meta:
-        verbose_name = "5. Контенкт"
-        verbose_name_plural = "5. Контент"
+        verbose_name = "05. Контенкт"
+        verbose_name_plural = "05. Контент"
 
     def __str__(self):
         return self.chapter_name
@@ -295,8 +296,8 @@ class Certification_appointment(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name = "6. Запись на сертификацию"
-        verbose_name_plural = "6. Запись на сертификацию"
+        verbose_name = "06. Запись на сертификацию"
+        verbose_name_plural = "06. Запись на сертификацию"
         # ordering = ['-time_create']
         ordering = ['job_title', 'certification_date', 'certification_time']
         # indexes = [
@@ -341,8 +342,8 @@ class Training_shedule(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name = "8. Список тренингов"
-        verbose_name_plural = "8. Список тренингов"
+        verbose_name = "08. Список тренингов"
+        verbose_name_plural = "08. Список тренингов"
         ordering = ['training_name', 'training_start_date']
 
 
@@ -384,8 +385,8 @@ class Training_participants(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name = "6. лист участников тренинга"
-        verbose_name_plural = "6. лист участников тренинга"
+        verbose_name = "06. лист участников тренинга"
+        verbose_name_plural = "06. лист участников тренинга"
         ordering = ['training_name', 'training_start_date']
 
 
@@ -414,8 +415,8 @@ class Dealers(models.Model):
         super().save(*args, **kwargs)
     
     class Meta:
-        verbose_name = "7. Список дилеров"
-        verbose_name_plural = "7. Список дилеров"
+        verbose_name = "07. Список дилеров"
+        verbose_name_plural = "07. Список дилеров"
 
 
 class Edu_programs(models.Model):
@@ -439,8 +440,8 @@ class Edu_programs(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name = "8. Список всех программ обучения"
-        verbose_name_plural = "8. Список всех программ обучения"
+        verbose_name = "08. Список всех программ обучения"
+        verbose_name_plural = "08. Список всех программ обучения"
 
 
 
@@ -466,8 +467,8 @@ class Rights_access(models.Model):
         super().save(*args, **kwargs)
     
     class Meta:
-        verbose_name = "9. Права доступа"
-        verbose_name_plural = "9. Права доступа"
+        verbose_name = "09. Права доступа"
+        verbose_name_plural = "09. Права доступа"
 
 
 
@@ -521,8 +522,8 @@ class Edu_Results(models.Model):
     #                                    default=Status.DRAFT, verbose_name="Статус")
 
     class Meta:
-        verbose_name = "9. Результаты изучения"
-        verbose_name_plural = "9. Результаты изучения"
+        verbose_name = "09. Результаты изучения"
+        verbose_name_plural = "09. Результаты изучения"
 
     def __str__(self):
         return self.title
@@ -574,3 +575,32 @@ class Cert_Results(models.Model):
     #     self.slug = slugify(translate_to_eng(self.title))
     #     super().save(*args, **kwargs)
     
+
+
+class Info(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
+    title = models.CharField(max_length=250)
+    short_description = models.TextField()
+    content = models.TextField()
+    file = models.FileField(upload_to='files/', blank=True)
+    slug = models.SlugField(max_length=255, db_index=True)    
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
+
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('info_detailes', kwargs={'info_slug': self.slug})          ## Наверное тут надо что-то поменять 
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.title))
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name = "11. Новости и инфо"
+        verbose_name_plural = "11. Новости и инфо"
