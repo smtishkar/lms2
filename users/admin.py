@@ -7,7 +7,7 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    fields = ['username', 'email', 'first_name', 'last_name', 'password', 'date_birth', 'dlr', 'job_title', 'job_title2', 'saba_id', 'access_rights', 'is_active']
+    fields = ['username', 'email', 'first_name', 'last_name', 'password', 'date_birth', 'date_joined','dlr', 'job_title', 'job_title2', 'saba_id', 'access_rights', 'is_active']
     # prepopulated_fields = {'slug': ('title',)}
     list_display = ('username', 'date_birth', 'dlr', 'job_title', 'job_title2', 'saba_id', 'access_rights', 'is_active')
     # list_display_links = ('title', )    

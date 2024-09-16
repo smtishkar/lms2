@@ -1,0 +1,9 @@
+﻿pasword,last_login,is_superuser,username,first_name,last_name,email,is_staff,is_active,date_joined,date_birth,dlr,job_title,saba_id,access_rights,job_title2
+Artem02102010,2024-06-19 13:16:39.918191,0,R0000018,Максим,Фейлер,,0,1,09.10.2023,19.12.1997,ТЦ Абакан,Service Advisor,R0000018,user,
+Artem02102011,2024-06-19 13:16:39.918191,0,R0000019,Виктор ,Зюзя,,,,01.08.2024,26.09.1998,ТЦ Абакан,Service Advisor,R0000019,user,
+Artem02102012,2024-06-19 13:16:39.918191,0,R0000020,Никита ,Миллер,,,,04.09.2023,12.04.1994,ТЦ Абакан,Service Advisor,R0000020,user,
+Artem02102013,2024-06-19 13:16:39.918191,0,R0000021,Олег,Ефимов,,,,08.08.2023,23.01.1997,ТЦ Абакан,Service Advisor,R0000021,user,Instructor
+Artem02102014,2024-06-19 13:16:39.918191,0,R0000022,Александр,Мелентьев,,,,24.01.2024,21.03.1996,ТЦ Абакан,Service Advisor,R0000022,user,
+Artem02102015,2024-06-19 13:16:39.918191,0,R0000023,Дмитрий,Агломазов,,,,23.05.2024,16.10.1998,ТЦ Абакан,Service Advisor,R0000023,user,
+Artem02102016,2024-06-19 13:16:39.918191,0,R0000024,Роман,Сурин,toyotaconnect@toyota.by,,,01.06.2024,10.08.1998,ТЦ Минск,Toyota Service Advisor,R0000024,user,
+Artem02102017,2024-06-19 13:16:39.918191,0,R0000025,Андрей,Жигадло,toyotaconnect@toyota.by,,,13.11.2023,13.04.1999,ТЦ Минск,Technician,R0000025,user,Service Advisor

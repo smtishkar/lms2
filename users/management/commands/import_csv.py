@@ -11,7 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         csv_file_path = kwargs['csv_file']
 
-        with open(csv_file_path, 'r') as file:
+        with open(csv_file_path, 'r', encoding="utf8") as file:
             csv_reader = csv.DictReader(file)
 
             
@@ -38,6 +38,8 @@ class Command(BaseCommand):
                     job_title2=row['job_title2'],
                     # Add other fields as needed
                 )
+                print(u.first_name)
                 u.set_password(u.password)
                 u.save()
+                
                 
