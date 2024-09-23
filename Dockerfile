@@ -21,6 +21,6 @@ COPY --chown=lms:lms . .
 
 RUN pip install -r requirements.txt
 
-USER lms
+# USER lms
 
 CMD ["gunicorn","-b","0.0.0.0:8001","myproject.wsgi:application"]

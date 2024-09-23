@@ -1,0 +1,39 @@
+# version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: db
+    volumes:
+      - ~/.pg/pg_data/lms:/var/lib/postgresql/data
+    env_file:
+      - .env
+  lms2:
+    image: lms:latest
+    container_name: lms
+    depends_on:
+      - db
+    volumes:
+      - static_volume:/lms/static
+      - media_volume:/lms/media
+    env_file:
+      - .env
+    command: >
+      bash -c "./manage.py collectstatic --noinput && ./manage.py migrate  && gunicorn -b 0.0.0.0:8000 myproject.wsgi:application"
+  nginx:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./docker/nginx/
+    container_name: lms_nginx
+    image: lms_nginx
+    volumes:
+      - static_volume:/lms/static
+      - media_volume:/lms/media
+    depends_on:
+      - lms2
+    ports:
+      - "${NGINX_EXTERNAL_PORT}:80"
+
+volumes:
+  static_volume:
+  media_volume:

@@ -37,9 +37,11 @@
             <li class="nav-item">
               <a class="nav-link" href="http://127.0.0.1:8000/cert_results/">Cертификаты</a>
             </li>
+            {% if request.user.access_rights == 'admin' or request.user.access_rights == 'trainer'%}
             <li class="nav-item">
               <a class="nav-link" href="http://127.0.0.1:8000/team/">Команда</a>
             </li>
+            {% endif %}
 
           </div>
           
