@@ -9,7 +9,7 @@
 
 <div class="page-area">
     <div class="left-sidebar">
-        <!-- <ul> -->
+
             {% for part in parts %}
                 {% if part.program_name == cources.program_name and part.is_published %}
                     <div class="list-content">
@@ -24,7 +24,7 @@
                     </div>
                     {% endif %}
                 {% endfor %}
-        <!-- </ul> -->
+
     </div>
     <div class="container">
         <div class="box-program-description">
@@ -39,14 +39,3 @@
 
 
 {% endblock content %}
-
-
-<!-- <div class="mt-5 px-5">
-
-    {% for i in videos %}
-    {% video i.video 'small' %}
-    {% endfor %}
-</div> -->
-
-
-<!-- <ul class="list-group list-group-flush"> -->

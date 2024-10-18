@@ -9,7 +9,7 @@
 
 <div class="page-area">
     <div class="left-sidebar">
-        <!-- <ul> -->
+
             {% for part in parts %}
                 {% if cources.program_name == part.program_name and part.is_published %}
                     <div class="list-content">
@@ -24,7 +24,7 @@
             </div>
                 {% endif %}
             {% endfor %}
-        <!-- </ul> -->
+
     </div>
     <div class="container">
         <div >
@@ -35,14 +35,14 @@
             {% if content.content_type == 'presentation' %}
             <h2>Презентация по теме: {{ content.chapter_name }}</h2>
 
-            <iframe src="{{ content.file.url }} #toolbar=0" height="800" width="750" frameborder="0"></iframe>
+            <iframe src="{{ content.file.url }}#toolbar=0" height="800" width="750" frameborder="0"></iframe>
             <hr>
             {% endif %}
             
             {% if content.content_type == 'video' %}
             <h2>Видео по теме: {{ content.chapter_name }}</h2>
             <div class="video-on-page">
-                <!-- {% video content.video 'tiny' %} -->
+
                 <iframe width="720" height="405" src="{{ content.video }}" frameBorder="0" allow="clipboard-write; autoplay" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
             </div>
             <br>
@@ -58,10 +58,3 @@
 
 {% endblock content %}
 
-
-<!-- <div class="mt-5 px-5">
-
-    {% for i in videos %}
-    {% video i.video 'small' %}
-    {% endfor %}
-</div> -->

@@ -97,7 +97,7 @@ class Site_sections(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(translate_to_eng(self.section_name))
-        # self.slug = slugify(self.title)
+
         super().save(*args, **kwargs)
     
 
@@ -116,12 +116,12 @@ class Technicians_cources(models.Model):
     edu_area_name = models.CharField(max_length=100)
     description = models.TextField(verbose_name='Описание', null=True, blank=True)
     button_name = models.CharField(max_length=100)
-    # image = models.ImageField(upload_to='static/myapp/image/')
+
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    # job_title = models.ForeignKey('Job_titles', on_delete=models.DO_NOTHING, null=True)
+
     area = models.CharField(max_length=250)
-    # edu_area = models.ForeignKey('Job_titles', on_delete=models.DO_NOTHING, null=True)
+
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
                                        default=Status.DRAFT, verbose_name="Статус")
 
@@ -139,7 +139,7 @@ class Technicians_cources(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(translate_to_eng(self.edu_area_name))
-        # self.slug = slugify(self.title)
+
         super().save(*args, **kwargs)
 
 
@@ -151,9 +151,9 @@ class Training_parts(models.Model):
         PUBLISHED = 1, 'Опубликовано'
 
     program_name = models.CharField(max_length=250)                        ## это и есть chapter поэтому поле chapte не нужно
-    # area = models.CharField(max_length=250)
+
     edu_area_name = models.CharField(max_length=250, null=True, blank=True)
-    # chapter = models.CharField(max_length=250)
+
     description = models.TextField()
     image = models.ImageField(upload_to='images/')
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
@@ -168,7 +168,6 @@ class Training_parts(models.Model):
         return self.program_name
 
     def get_absolute_url(self):
-        # return reverse('part', kwargs={'part_slug': self.slug})          ## post это имя маршрута в urls
         return reverse('content', kwargs={'content_slug': self.slug})          ## post это имя маршрута в urls
 
     def save(self, *args, **kwargs):
@@ -184,14 +183,11 @@ class Training_chapters(models.Model):
 
 
     chapter_name = models.CharField(max_length=250)
-    # area = models.CharField(max_length=250)
-    # level = models.CharField(max_length=250)
+
     program_name = models.CharField(max_length=250)
-    # section = models.CharField(max_length=250, null=True)
+
     description = models.TextField()
-    # image = models.ImageField(upload_to='images/')
-    # content_type = models.CharField(max_length=250)
-    # video = EmbedVideoField(blank=True)
+
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
                                        default=Status.DRAFT, verbose_name="Статус")
@@ -221,14 +217,11 @@ class Content(models.Model):
 
 
     chapter_name = models.CharField(max_length=250)
-    # area = models.CharField(max_length=250)
-    # level = models.CharField(max_length=250)
-    # chapter = models.CharField(max_length=250)
-    # section = models.CharField(max_length=250, null=True)
+
     description = models.TextField()
-    # image = models.ImageField(upload_to='images/')
+
     content_type = models.CharField(max_length=250)
-    # video = EmbedVideoField(blank=True)
+
     video = models.TextField()
     file = models.FileField(upload_to='files/', blank=True)
     slug = models.SlugField(max_length=255, db_index=True)
@@ -268,12 +261,12 @@ class Certification_appointment(models.Model):
         DRAFT = 0, 'Черновик'
         PUBLISHED = 1, 'Опубликовано'
 
-    # title = models.CharField(max_length=250)
+
     job_title = models.CharField(max_length=250)
     certification_date = models.DateField()
     certification_time = models.TimeField(default=dt.time(00, 00))          ## Если хотим чтобы в форме был выбор установленного времени
     created_at = models.DateTimeField(auto_now_add=True)
-    # slug = models.SlugField(max_length=255, unique=True, db_index=True)
+
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
                                        default=Status.DRAFT, verbose_name="Статус")
     dlr=models.CharField(max_length=250,null=True, blank=True)
@@ -298,11 +291,9 @@ class Certification_appointment(models.Model):
     class Meta:
         verbose_name = "06. Запись на сертификацию"
         verbose_name_plural = "06. Запись на сертификацию"
-        # ordering = ['-time_create']
+
         ordering = ['job_title', 'certification_date', 'certification_time']
-        # indexes = [
-        #     models.Index(fields=['-time_create'])
-        # ]
+
 
 
 
@@ -313,21 +304,21 @@ class Training_shedule(models.Model):
         DRAFT = 0, 'Черновик'
         PUBLISHED = 1, 'Опубликовано'
 
-    # title = models.CharField(max_length=250)
+
     training_id = models.CharField(max_length=250, blank=True)
     training_name = models.CharField(max_length=250)
     training_start_date = models.DateField()
     training_end_date = models.DateField()
     actual_num_participants = models.IntegerField(default=0)
     max_participants = models.IntegerField()
-    # slug = models.SlugField(max_length=255, unique=True, db_index=True)
+
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
                                        default=Status.DRAFT, verbose_name="Статус")
     dlr=models.CharField(max_length=250,null=True, blank=True)
     employee_id = models.CharField(max_length=250, null=True, blank=True)
     employee_name = models.CharField(max_length=250, null=True, blank=True)
     employee_last_name = models.CharField(max_length=250, null=True, blank=True)
-    # time_update = models.DateTimeField(auto_now=True)
+
     is_available = models.BooleanField(default=0)
 
     
@@ -350,28 +341,19 @@ class Training_shedule(models.Model):
 
 class Training_participants(models.Model):
 
-    # class Status(models.IntegerChoices):
-    #     DRAFT = 0, 'Черновик'
-    #     PUBLISHED = 1, 'Опубликовано'
 
-    # title = models.CharField(max_length=250)
     training_name = models.CharField(max_length=250)
-    # training_id = models.ForeignKey(Training_shedule,on_delete=models.DO_NOTHING)
+
     training_id = models.CharField(max_length=250, blank=True)
     training_start_date = models.DateField()
     training_end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
-    # actual_num_participants = models.IntegerField(default=0)
-    # max_participants = models.IntegerField()
-    # slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    # is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
-    #                                    default=Status.DRAFT, verbose_name="Статус")
+
     dlr=models.CharField(max_length=250,null=True, blank=True)
     employee_id = models.CharField(max_length=250, null=True, blank=True)
     employee_name = models.CharField(max_length=250, null=True, blank=True)
     employee_last_name = models.CharField(max_length=250, null=True, blank=True)
-    # time_update = models.DateTimeField(auto_now=True)
-    # is_available = models.BooleanField(default=0)
+
 
     
     def __str__(self):
@@ -459,8 +441,7 @@ class Rights_access(models.Model):
     def __str__(self):
         return self.rights_title
     
-    # def get_absolute_url(self):
-    #     return reverse('appointment', kwargs={'app_id': self.slug})          ## Наверное тут надо что-то поменять
+
 
     def save(self, *args, **kwargs):
         self.slug = slugify(translate_to_eng(self.rights_title))
@@ -472,54 +453,14 @@ class Rights_access(models.Model):
 
 
 
-# class Rights_access(models.Model):
-
-#     class Status(models.IntegerChoices):
-#         DRAFT = 0, 'Черновик'
-#         PUBLISHED = 1, 'Опубликовано'
-
-#     rights_title = models.CharField(max_length=250)
-#     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
-#                                        default=Status.DRAFT, verbose_name="Статус")
-
-#     def __str__(self):
-#         return self.rights_title
-    
-#     # def get_absolute_url(self):
-#     #     return reverse('appointment', kwargs={'app_id': self.slug})          ## Наверное тут надо что-то поменять
-
-#     def save(self, *args, **kwargs):
-#         self.slug = slugify(translate_to_eng(self.rights_title))
-#         super().save(*args, **kwargs)
-    
-#     class Meta:
-#         verbose_name = "9. Права доступа"
-#         verbose_name_plural = "9. Права доступа"
-
 
 
 class Edu_Results(models.Model):
 
-    # class Status(models.IntegerChoices):
-    #     DRAFT = 0, 'Черновик'
-    #     PUBLISHED = 1, 'Опубликовано'
 
-    # username = models.ForeignKey('users.User', on_delete=models.DO_NOTHING)
-    # title = models.ForeignKey('Content', on_delete=models.DO_NOTHING)
     username = models.CharField(max_length=250)
     title = models.CharField(max_length=250)
-    # program_name = models.ForeignKey('Training_chapters', on_delete=models.DO_NOTHING)
-    # area = models.CharField(max_length=250)
-    # level = models.CharField(max_length=250)
-    # chapter = models.CharField(max_length=250)
-    # section = models.CharField(max_length=250, null=True)
-    # description = models.TextField()
-    # image = models.ImageField(upload_to='images/')
-    # content_type = models.CharField(max_length=250)
-    # video = EmbedVideoField(blank=True)
-    # slug = models.SlugField(max_length=255, db_index=True)
-    # is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
-    #                                    default=Status.DRAFT, verbose_name="Статус")
+
 
     class Meta:
         verbose_name = "09. Результаты изучения"
@@ -531,35 +472,17 @@ class Edu_Results(models.Model):
     def get_absolute_url(self):
         return reverse('fin_content', kwargs={'fin_content_slug': self.slug})          ## post это имя маршрута в urls
 
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(translate_to_eng(self.title))
-    #     super().save(*args, **kwargs)
+
 
 
 
 class Cert_Results(models.Model):
 
-    # class Status(models.IntegerChoices):
-    #     DRAFT = 0, 'Черновик'
-    #     PUBLISHED = 1, 'Опубликовано'
 
-    # username = models.ForeignKey('users.User', on_delete=models.DO_NOTHING)
-    # title = models.ForeignKey('Content', on_delete=models.DO_NOTHING)
     user_id = models.CharField(max_length=250)
     cerification_name = models.CharField(max_length=250)
     create_at = models.DateTimeField(auto_now_add=True)
-    # program_name = models.ForeignKey('Training_chapters', on_delete=models.DO_NOTHING)
-    # area = models.CharField(max_length=250)
-    # level = models.CharField(max_length=250)
-    # chapter = models.CharField(max_length=250)
-    # section = models.CharField(max_length=250, null=True)
-    # description = models.TextField()
-    # image = models.ImageField(upload_to='images/')
-    # content_type = models.CharField(max_length=250)
-    # video = EmbedVideoField(blank=True)
-    # slug = models.SlugField(max_length=255, db_index=True)
-    # is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
-    #                                    default=Status.DRAFT, verbose_name="Статус")
+
 
     class Meta:
         verbose_name = "10. Результаты Сертификации"
@@ -604,3 +527,35 @@ class Info(models.Model):
     class Meta:
         verbose_name = "11. Новости и инфо"
         verbose_name_plural = "11. Новости и инфо"
+
+
+class QuesModel(models.Model):
+
+    class Status(models.IntegerChoices):
+        DRAFT = 0, 'Черновик'
+        PUBLISHED = 1, 'Опубликовано'
+
+    cert_area_test = models.CharField(max_length=200,null=True)
+    question = models.CharField(max_length=200,null=True)
+    image = models.ImageField(upload_to='static/myapp/image/', null=True, blank=True)
+    op1 = models.CharField(max_length=200,null=True)
+    op2 = models.CharField(max_length=200,null=True)
+    op3 = models.CharField(max_length=200,null=True)
+    op4 = models.CharField(max_length=200,null=True)
+    answer = models.CharField(max_length=200,null=True)
+    is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
+                                       default=Status.DRAFT, verbose_name="Статус")
+    
+    def __str__(self):
+        return self.question    
+    
+    def get_absolute_url(self):
+        return reverse('quiz', kwargs={'quiz': self.slug})          ## Наверное тут надо что-то поменять 
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(translate_to_eng(self.question))
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name = "12. Тест"
+        verbose_name_plural = "12. Тест"

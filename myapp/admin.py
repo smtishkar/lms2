@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Content, Video, Site_sections, Technicians_cources, Training_chapters, Training_parts, Certification_appointment, Job_titles, Dealers, Edu_programs, Training_shedule, Training_participants, Rights_access, Cert_Results, Info
+from .models import Content, Video, Site_sections, Technicians_cources, Training_chapters, Training_parts, Certification_appointment, Job_titles, Dealers, Edu_programs, Training_shedule, Training_participants, Rights_access, Cert_Results, Info, QuesModel
 from django.contrib import messages
 
 # Register your models here.
@@ -346,6 +346,28 @@ class InfoAdmin(admin.ModelAdmin):
     @admin.action(description="Снять с публикации выбранные записи")
     def set_draft(self, request, queryset):
         count = queryset.update(is_published=Rights_access.Status.DRAFT)
+        self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
+
+
+@admin.register(QuesModel)
+class QuizAdmin(admin.ModelAdmin):
+    fields = ['cert_area_test', 'question', 'image', 'op1', 'op2', 'op3', 'op4', 'answer', 'is_published']
+    list_display = ('cert_area_test', 'question', 'is_published')
+    list_display_links = ('question', )    
+    ordering = ['id']
+    list_editable = ('is_published', )
+    list_per_page = 10
+    actions = ['set_published', 'set_draft']
+    search_fields = ['question']
+
+    @admin.action(description="Опубликовать выбранные записи")
+    def set_published(self, request, queryset):
+        count = queryset.update(is_published=Dealers.Status.PUBLISHED)
+        self.message_user(request, f"Изменено {count} записей.")
+
+    @admin.action(description="Снять с публикации выбранные записи")
+    def set_draft(self, request, queryset):
+        count = queryset.update(is_published=Dealers.Status.DRAFT)
         self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
 
 

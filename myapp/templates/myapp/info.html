@@ -16,8 +16,8 @@
     {{i.title}}
 </h2>
 
-    {{ i.short_description }}
-    <!-- {{ i.slug}} -->
+    {{ i.short_description|linebreaks|truncatewords:60 }}
+
 
     <a href="{% url 'info_detailes' i.slug %}">
 
@@ -33,5 +33,4 @@
 {% endblock content %}
 
 
-<!-- <a href="{% url 'info' i.slug %}">123</a> -->
 

@@ -3,10 +3,12 @@
 {% block content %}
 <h1>Поиск профиля пользователя</h1>
 
-<form action="" method="post", action="users:profile/">
+<form method="post">
     {% csrf_token %}
     <p>Name:<br> <input name="name" /></p>
-    <input type="submit" value="Поиск" />
+    <input type="submit", name="profile" value="profile" />
+    <input type="submit", name="password" value="password" />
+
 </form>
 
 <hr>
@@ -19,3 +21,19 @@
 <input type="submit" value="OK"> -->
 
 <!-- <input id="username" type="text" name="username" value="{{ current_name }}"> -->
+
+
+
+
+
+
+<!-- <h1>Поиск профиля пользователя</h1>
+
+<form action="" method="post", action="users:profile/">
+    {% csrf_token %}
+    <p>Name:<br> <input name="name" /></p>
+    <input type="submit" value="Поиск" />
+    
+</form>
+
+<hr> -->

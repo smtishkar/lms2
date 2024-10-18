@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm 
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm, SetPasswordForm 
 from django.contrib.auth import get_user_model
 from myapp.models import Dealers, Job_titles, Rights_access
 import datetime
@@ -57,11 +57,16 @@ class ProfileUserForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-input'}),
         }
 
-class UserPasswordChangeForm(PasswordChangeForm):
+class UserPasswordChangeForm(SetPasswordForm):
+    # username = forms.CharField(disabled=True, label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    # email = forms.CharField(disabled=True, label='E-mail', widget=forms.TextInput(attrs={'class': 'form-input'}))
     # old_password = forms.CharField(label="Старый пароль", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
     new_password1 = forms.CharField(label="Новый пароль", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
     new_password2 = forms.CharField(label="Подтверждение пароля", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
-
+    
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'new_password1', 'new_password2',]
 
 class UserProfileSearhForm(forms.Form):
     username = forms.CharField(disabled=True, label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
