@@ -1,7 +1,8 @@
+import random
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from myapp.forms import CertificationAppointmentForm,TrainingAppointmentForm
-from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants, Content, Edu_Results, Cert_Results, Info
+from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants, Content, Edu_Results, Cert_Results, Info, QuesModel, QuesModel
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404
 from .services import open_file
@@ -277,3 +278,174 @@ def get_info_details (request, info_slug):
 
     }
     return render(request, 'myapp/info_details.html', data)
+
+
+
+@login_required
+def quiz_start_page(request):
+    quantity_of_question = 1 # Тут жестко задаем количество вопросов в тесте
+    full_quiz_list =[]
+    final_quiz_list = []
+    answer_list = []
+    quiz = QuesModel.objects.all().values()
+    
+    for i in quiz:
+        full_quiz_list.append(i)
+    # print(full_quiz_list)
+    
+    for i in range(0, quantity_of_question):               
+        question_id = full_quiz_list[random.randint(0, len(full_quiz_list)-1)]
+        final_quiz_list.append(question_id)
+        full_quiz_list.remove(question_id)
+
+    print('final_quiz_list')
+    print(final_quiz_list)
+
+
+    data = {
+        'quiz': final_quiz_list,
+        'answer_list': answer_list
+    }
+    return render(request, 'myapp/quiz_start_page.html', data)
+
+
+
+
+@login_required
+def quiz(request):
+
+    print ('-'* 200)
+    quantity_of_question = 2 # Тут жестко задаем количество вопросов в тесте
+    full_quiz_list =[]
+    # final_quiz_list = []
+    answer_list = []
+    quiz = QuesModel.objects.all().values()
+    quiz_result = []
+    res_dict ={}
+    global test
+    global final_quiz_list 
+
+    if request.method == 'GET':
+        final_quiz_list = []
+        for i in quiz:
+            full_quiz_list.append(i)
+                # print(full_quiz_list)
+                
+        for i in range(0, quantity_of_question):               
+            question_id = full_quiz_list[random.randint(0, len(full_quiz_list)-1)]
+            final_quiz_list.append(question_id)
+            full_quiz_list.remove(question_id)
+        test = final_quiz_list  
+
+        print('final_quiz_list')
+        print(final_quiz_list)
+        data = {
+        'quiz': final_quiz_list,
+        'answer_list': answer_list
+    }
+        return render(request, 'myapp/quiz.html', data)
+
+    if request.method == 'POST':
+        for i in test:
+            print(i)
+            for key,values in i.items():
+                if key == 'id':
+                    # print(key)
+                    res = values
+                    # print(res)
+                    obj = QuesModel.objects.get(id=str(res))
+                    print(obj)
+                    # answer_boxes = request.POST.get(str(obj))
+                    # answer_list = request.POST.getlist('question')
+                    answer_list = request.POST.get(str(obj.question))
+                    # print (str(obj.question))
+                    res_dict['id'] = obj.pk
+                    # print(obj.pk)
+                    res_dict['question'] = obj.question
+                    res_dict['user_answer'] = answer_list
+                    res_dict['right_answer'] = obj.answer
+                    quiz_result.append(res_dict)
+                    res_dict ={}
+
+
+        for i in quiz_result:
+            print(i)
+            # for key,values in i.items():
+
+                    # print(key)
+            user_answer = i['user_answer']
+            right_answer = i['right_answer']
+            if user_answer == right_answer:
+                print('Вы ответили правильно!')
+            else: print ('не верно')
+            # print(user_answer)
+            # print(right_answer)        
+
+        print('это результаты')
+        print(quiz_result)
+                    # print(answer_boxes)   
+                    # answer_list.append(answer_boxes)
+        # print('это тест')
+        # print(test)
+
+
+
+    
+    data = {
+        'quiz_result': quiz_result,
+    }        
+
+    # data = {
+    #     'quiz': final_quiz_list,
+    #     'answer_list': answer_list
+    # }
+    return render(request, 'myapp/quiz.html', data)
+
+
+    # print('full_quiz_list')
+    # print(full_quiz_list)
+    
+
+    # ------------------------
+    # for i in final_quiz_list:
+    #     print(i)
+    #     for key,values in i.items():
+    #         if key == 'id':
+    #             # print(key)
+    #             res = values
+    #             # print(res)
+    #             obj = QuesModel.objects.get(id=str(res))
+    #             print(obj)
+    #             answer_boxes = request.POST.get(str(obj))
+    #                 # print(answer_boxes)
+    #             answer_list.append(answer_boxes)
+    # ---------------------------
+
+
+
+
+            # print(key, value)
+        # obj = QuesModel.objects.get(id=i+1)
+        # print(obj)
+        # if request.method == 'POST':
+
+
+
+
+
+
+    # for i in range(0, len(final_quiz_list)):
+    #     obj = QuesModel.objects.get(id=i+1)
+    #     print(obj)
+    #     # value = getattr(obj, obj.question)
+    #     # print(value)
+    #     # print(QuesModel.objects.get(id=i+1))
+    #     if request.method == 'POST':
+    #         # answer_boxes = request.POST.getlist('Вопрос 1')
+    #         # print(quiz)
+    #         answer_boxes = request.POST.getlist(str(obj))
+    #         print(answer_boxes)
+
+
+
+

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Certification_appointment,Dealers,Edu_programs,Training_shedule, Training_participants
+from .models import Certification_appointment,Dealers,Edu_programs,Training_shedule, Training_participants, QuesModel
 import datetime as dt
 
 
@@ -60,3 +60,29 @@ class TrainingAppointmentForm(forms.ModelForm):
                   'employee_last_name':'Фамилия сотрудника'
                   }
 
+
+class QuizForm(forms.ModelForm):
+
+    question = forms.CharField (label="Вопрос")
+    op1 = forms.CharField (label="Ответ 1")
+    op2 = forms.CharField (label="Ответ 2")
+    op3 = forms.CharField (label="Ответ 3")
+    op4 = forms.CharField (label="Ответ 4")
+    answer = forms.CharField
+
+
+    # dlr = forms.CharField(label='Название дилерского центра', max_length=100)
+    # employee_id = forms.CharField(label='ID сотрудника', max_length=100)
+    # employee_name = forms.CharField(label='Имя сотрудника', max_length=100)
+    # employee_last_name = forms.CharField(label='Фамилия сотрудника', max_length=100)
+    # category = forms.ModelChoiceField(label='Выберите категорию', queryset=Category.objects.all())        ## Оставил как пример списка | empty_label
+
+    # dlr = forms.ModelChoiceField(queryset=Dealers.objects.all(), empty_label='Дилер не выбран', label='Дилерский центр')
+    class Meta:
+        model = QuesModel
+        # fields = ['job_title', 'certification_date', 'certification_time', 'dlr', 'employee_id', 'employee_name', 'employee_last_name']
+        fields = ['question','op1', 'op2', 'op3', 'op4', 'answer']
+        # labels = {'employee_id': 'ID сотрудника',
+        #           'employee_name': 'Имя сотрудника',
+        #           'employee_last_name':'Фамилия сотрудника'
+        #           }

@@ -1,0 +1,54 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+<h1>Тестирование</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-error">{{ form.non_field_errors }}</div>
+
+    {% for f in quiz %}
+    {{ f.question }}
+    <br>
+    <br>
+    <!-- <input type="checkbox" name="{{ f.op1 }}"> -->
+    <input type="checkbox" name="question" value="{{ f.op1 }}"> {{ f.op1 }}<br>
+    <input type="checkbox" name="question" value="{{ f.op2 }}"> {{ f.op2 }}<br>
+    <input type="checkbox" name="{{f.question}}" value="{{ f.op3 }}"> {{ f.op3 }}<br>
+    <input type="checkbox" name="{{f.question}}" value="{{ f.op4 }}"> {{ f.op4 }}<br>
+
+
+    <hr>
+    {% endfor %}
+    {% for i in answer_list %}
+    {{ i }}
+    {% endfor %}
+
+    {% for i in quiz_result %}
+    {{ i }}
+    {% endfor %}
+
+    
+
+
+
+
+    <!-- {% for f in form %}
+
+    <p>fdsgdfgdf</p>
+    <p>f.question</p>
+        <input type="checkbox" name="question_{{ f.question.id }}" id="question_{{ f.question.id }}" required>
+        <label for="question_{{ f.question.id }}">{{ f.question }}</label>
+    </p>
+        <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+        <div class="form-error">{{ f.errors }}</div>
+    {% endfor %} -->
+
+    <p><button type="submit">Сохранить</button></p>
+</form>
+
+
+
+
+{% endblock %}

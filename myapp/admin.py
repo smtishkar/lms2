@@ -352,7 +352,7 @@ class InfoAdmin(admin.ModelAdmin):
 @admin.register(QuesModel)
 class QuizAdmin(admin.ModelAdmin):
     fields = ['cert_area_test', 'question', 'image', 'op1', 'op2', 'op3', 'op4', 'answer', 'is_published']
-    list_display = ('cert_area_test', 'question', 'is_published')
+    list_display = ('id','cert_area_test', 'question', 'is_published')
     list_display_links = ('question', )    
     ordering = ['id']
     list_editable = ('is_published', )
