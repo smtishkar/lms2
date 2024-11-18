@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Content, Video, Site_sections, Technicians_cources, Training_chapters, Training_parts, Certification_appointment, Job_titles, Dealers, Edu_programs, Training_shedule, Training_participants, Rights_access, Cert_Results, Info, QuesModel
+from .models import Content, Video, Site_sections, Technicians_cources, Training_chapters, Training_parts, Certification_appointment, Job_titles, Dealers, Edu_programs, Training_shedule, Training_participants, Rights_access, Cert_Results, Info, QuesModel, Edu_Results
 from django.contrib import messages
 
 # Register your models here.
@@ -260,8 +260,8 @@ class DealersAdmin(admin.ModelAdmin):
 
 @admin.register(Edu_programs)
 class Edu_programsAdmin(admin.ModelAdmin):
-    fields = ['title', 'is_published']
-    list_display = ('id', 'title', 'is_published')
+    fields = ['title', 'is_published', 'cert_requirements']
+    list_display = ('id', 'title', 'cert_requirements', 'is_published')
     list_display_links = ('title', )    
     ordering = ['id']
     list_editable = ('is_published', )
@@ -279,6 +279,29 @@ class Edu_programsAdmin(admin.ModelAdmin):
         count = queryset.update(is_published=Edu_programs.Status.DRAFT)
         self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
 
+
+
+
+@admin.register(Edu_Results)
+class Edu_ResultsAdmin(admin.ModelAdmin):
+    fields = ['title', 'username']
+    list_display = ('id', 'title', 'username', 'create_at',)
+    list_display_links = ('title', )    
+    ordering = ['id']
+    # list_editable = ('is_published', )
+    list_per_page = 10
+    # actions = ['set_published', 'set_draft']
+    search_fields = ['title', 'username']
+
+    # @admin.action(description="Опубликовать выбранные записи")
+    # def set_published(self, request, queryset):
+    #     count = queryset.update(is_published=Edu_programs.Status.PUBLISHED)
+    #     self.message_user(request, f"Изменено {count} записей.")
+
+    # @admin.action(description="Снять с публикации выбранные записи")
+    # def set_draft(self, request, queryset):
+    #     count = queryset.update(is_published=Edu_programs.Status.DRAFT)
+    #     self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
 
 
 

@@ -13,8 +13,8 @@
     <br>
     <br>
     <!-- <input type="checkbox" name="{{ f.op1 }}"> -->
-    <input type="checkbox" name="question" value="{{ f.op1 }}"> {{ f.op1 }}<br>
-    <input type="checkbox" name="question" value="{{ f.op2 }}"> {{ f.op2 }}<br>
+    <input type="checkbox" name="{{f.question}}" value="{{ f.op1 }}"> {{ f.op1 }}<br>
+    <input type="checkbox" name="{{f.question}}" value="{{ f.op2 }}"> {{ f.op2 }}<br>
     <input type="checkbox" name="{{f.question}}" value="{{ f.op3 }}"> {{ f.op3 }}<br>
     <input type="checkbox" name="{{f.question}}" value="{{ f.op4 }}"> {{ f.op4 }}<br>
 
@@ -29,23 +29,16 @@
     {{ i }}
     {% endfor %}
 
-    
+
+    {% if ttl_count > 0 %}
+        <p>Всего вопросов: {{ ttl_count }}</p>
+        <p>Правильных ответов: {{ right_count }}</p>
+        <br>
+        <p>Ваш результат: {{ final_score }} %</p>
+    {% endif %}
 
 
-
-
-    <!-- {% for f in form %}
-
-    <p>fdsgdfgdf</p>
-    <p>f.question</p>
-        <input type="checkbox" name="question_{{ f.question.id }}" id="question_{{ f.question.id }}" required>
-        <label for="question_{{ f.question.id }}">{{ f.question }}</label>
-    </p>
-        <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
-        <div class="form-error">{{ f.errors }}</div>
-    {% endfor %} -->
-
-    <p><button type="submit">Сохранить</button></p>
+    <p><button type="submit">Отправить результат</button></p>
 </form>
 
 

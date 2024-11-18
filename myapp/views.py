@@ -2,7 +2,7 @@ import random
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from myapp.forms import CertificationAppointmentForm,TrainingAppointmentForm
-from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants, Content, Edu_Results, Cert_Results, Info, QuesModel, QuesModel
+from .models import Video, Site_sections, Technicians_cources, Videos, Training_parts, Training_chapters, Certification_appointment, Training_shedule, Training_participants, Content, Edu_Results, Cert_Results, Info, QuesModel, QuesModel, Edu_programs
 from django.http import HttpResponse, StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404
 from .services import open_file
@@ -71,6 +71,9 @@ def get_technician_content(request, part_slug):             ## переимен�
     slug_area = get_object_or_404(Site_sections, slug=part_slug)
     certifications= Certification_appointment.objects.all()
     trainings = Training_shedule.objects.all()
+    online_certifications = Edu_programs.objects.all()
+    edu_results = Edu_Results.objects.filter(username=request.user)
+    # cert_results = Cert_Results.objects.filter(user_id=request.user)  #TODO: не сделана проверка на то, что тест уже пройдет
 
     participants = Training_participants.objects.values('training_id').annotate(the_count=Count('training_id'))
 
@@ -79,7 +82,10 @@ def get_technician_content(request, part_slug):             ## переимен�
         'slug_area': slug_area,
         'certifications': certifications,
         "trainings": trainings,
-        "participants": participants
+        "participants": participants,
+        'online_certifications': online_certifications,
+        'edu_results': edu_results,
+        # 'cert_results': cert_results      #TODO: не сделана проверка на то, что тест уже пройдет
 
     }
 
@@ -312,18 +318,22 @@ def quiz_start_page(request):
 
 
 @login_required
-def quiz(request):
-
+def quiz(request, cert_area):
+    print(cert_area)
     print ('-'* 200)
     quantity_of_question = 2 # Тут жестко задаем количество вопросов в тесте
     full_quiz_list =[]
     # final_quiz_list = []
     answer_list = []
-    quiz = QuesModel.objects.all().values()
+    # quiz = QuesModel.objects.all().values()
+    quiz = QuesModel.objects.filter(cert_area_test = cert_area).values()
     quiz_result = []
     res_dict ={}
     global test
     global final_quiz_list 
+    ttl_count = 0
+    right_count = 0
+    final_score = 0
 
     if request.method == 'GET':
         final_quiz_list = []
@@ -377,12 +387,34 @@ def quiz(request):
             right_answer = i['right_answer']
             if user_answer == right_answer:
                 print('Вы ответили правильно!')
+                right_count +=1
             else: print ('не верно')
             # print(user_answer)
             # print(right_answer)        
+            ttl_count +=1
+            final_score = (right_count / ttl_count) * 100
 
+            
+
+        print    
+        print(type(right_count))
+        print(type(ttl_count))
+        print(type(final_score))
+
+        print('правильных ответов:', right_count)
+        print('Всего вопросов:', ttl_count)
+        # print('результат:' , final_score)
         print('это результаты')
         print(quiz_result)
+        if final_score > 80:
+            try:
+                cert_result = Cert_Results.objects.filter(user_id=request.user).get(cerification_name=cert_area)
+            except:
+                cert_result = Cert_Results.objects.create(
+                    user_id = request.user.username,
+                    cerification_name = cert_area,
+                )
+            # print ('поздравляю')
                     # print(answer_boxes)   
                     # answer_list.append(answer_boxes)
         # print('это тест')
@@ -391,9 +423,12 @@ def quiz(request):
 
 
     
-    data = {
-        'quiz_result': quiz_result,
-    }        
+        data = {
+            'quiz_result': quiz_result,
+            'ttl_count': ttl_count,
+            'right_count': right_count,
+            'final_score': final_score
+        }        
 
     # data = {
     #     'quiz': final_quiz_list,

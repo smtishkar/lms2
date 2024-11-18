@@ -410,6 +410,8 @@ class Edu_programs(models.Model):
     title = models.CharField(max_length=250)
     is_published = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)),
                                        default=Status.DRAFT, verbose_name="Статус")
+    cert_requirements = models.CharField(max_length=250)
+    
 
     def __str__(self):
         return self.title
@@ -460,6 +462,7 @@ class Edu_Results(models.Model):
 
     username = models.CharField(max_length=250)
     title = models.CharField(max_length=250)
+    create_at = models.DateTimeField(auto_now_add=True)
 
 
     class Meta:
