@@ -73,7 +73,7 @@ def get_technician_content(request, part_slug):             ## переимен�
     trainings = Training_shedule.objects.all()
     online_certifications = Edu_programs.objects.all()
     edu_results = Edu_Results.objects.filter(username=request.user)
-    cert_results = Cert_Results.objects.filter(user_id=request.user)  #TODO: не сделана проверка на то, что тест уже пройдет
+    cert_results = Cert_Results.objects.filter(user_id=request.user)  
 
     participants = Training_participants.objects.values('training_id').annotate(the_count=Count('training_id'))
 
@@ -86,7 +86,7 @@ def get_technician_content(request, part_slug):             ## переимен�
         "participants": participants,
         'online_certifications': online_certifications,
         'edu_results': edu_results,
-        'cert_results': cert_results      #TODO: не сделана проверка на то, что тест уже пройдет
+        'cert_results': cert_results      
 
     }
 
@@ -338,146 +338,125 @@ def quiz(request, cert_area):
     final_score = 0
 
     cert_result = Cert_Results.objects.filter(user_id=request.user).filter(cerification_name = cert_area).filter(cert_status='Active').count()
-    if cert_result > 0:
-        print ('вы уже сдавали тест')
-
-    # if cert_area 
-
-    # for i in cert_result:
-    #     if i.cerification_name == cert_area:
-    #         print ('вы уже сдавали тест')
-    #         # return redirect ('quiz_results')
-    #     print (i.cerification_name)
-
-    # if cert_area in cert_result:
-    #     print ('вы уже сдавали тест')
-    # print(cert_result)
-    # if cert_area in cert_result:
-    # # for i in cert_result:
-    #     print (i.cerification_name)
-    #     print ('вы уже сдавали тест')
-    # print(cert_area)
-    
-    # if cert_area == 
-
-
-
-    if request.method == 'GET':
-        final_quiz_list = []
-        for i in quiz:
-            full_quiz_list.append(i)
-                # print(full_quiz_list)
-                
-        for i in range(0, quantity_of_question):               
-            question_id = full_quiz_list[random.randint(0, len(full_quiz_list)-1)]
-            final_quiz_list.append(question_id)
-            full_quiz_list.remove(question_id)
-        test = final_quiz_list  
-
-        print('final_quiz_list')
-        print(final_quiz_list)
-        data = {
-        'quiz': final_quiz_list,
-        'answer_list': answer_list
-    }
-        return render(request, 'myapp/quiz.html', data)
-
-    if request.method == 'POST':
-        for i in test:
-            print(i)
-            for key,values in i.items():
-                if key == 'id':
-                    # print(key)
-                    res = values
-                    # print(res)
-                    obj = QuesModel.objects.get(id=str(res))
-                    print(obj)
-                    # answer_boxes = request.POST.get(str(obj))
-                    # answer_list = request.POST.getlist('question')
-                    answer_list = request.POST.get(str(obj.question))
-                    # print (str(obj.question))
-                    res_dict['id'] = obj.pk
-                    # print(obj.pk)
-                    res_dict['question'] = obj.question
-                    res_dict['user_answer'] = answer_list
-                    res_dict['right_answer'] = obj.answer
-                    quiz_result.append(res_dict)
-                    res_dict ={}
-
-
-        for i in quiz_result:
-            print(i)
-            # for key,values in i.items():
-
-                    # print(key)
-            user_answer = i['user_answer']
-            right_answer = i['right_answer']
-            if user_answer == right_answer:
-                print('Вы ответили правильно!')
-                right_count +=1
-            else: print ('не верно')
-            # print(user_answer)
-            # print(right_answer)        
-            ttl_count +=1
-            final_score = (right_count / ttl_count) * 100
-
-            
-
-        print    
-        print(type(right_count))
-        print(type(ttl_count))
-        print(type(final_score))
-
-        print('правильных ответов:', right_count)
-        print('Всего вопросов:', ttl_count)
-        # print('результат:' , final_score)
-        print('это результаты')
-        print(quiz_result)
-        data = {
-            'quiz_result': quiz_result,
-            'ttl_count': ttl_count,
-            'right_count': right_count,
-            'final_score': final_score
-        }        
-        if final_score > 80:
-            try:
-                cert_result = Cert_Results.objects.filter(user_id=request.user).get(cerification_name=cert_area)
-                return render(request, 'myapp/quiz_result.html', data)
-            except:
-                cert_result = Cert_Results.objects.create(
-                    user_id = request.user.username,
-                    cerification_name = cert_area,
-                    status = 'OK',
-                    score = final_score,
-                    cert_status = 'Active'
+    if cert_result == 0:
+        # print ('вы уже сдавали тест')
+        if request.method == 'GET':
+            final_quiz_list = []
+            for i in quiz:
+                full_quiz_list.append(i)
+                    # print(full_quiz_list)
                     
-                )
+            for i in range(0, quantity_of_question):               
+                question_id = full_quiz_list[random.randint(0, len(full_quiz_list)-1)]
+                final_quiz_list.append(question_id)
+                full_quiz_list.remove(question_id)
+            test = final_quiz_list  
+
+            print('final_quiz_list')
+            print(final_quiz_list)
+            data = {
+            'quiz': final_quiz_list,
+            'answer_list': answer_list
+        }
+            return render(request, 'myapp/quiz.html', data)
+
+        if request.method == 'POST':
+            for i in test:
+                print(i)
+                for key,values in i.items():
+                    if key == 'id':
+                        # print(key)
+                        res = values
+                        # print(res)
+                        obj = QuesModel.objects.get(id=str(res))
+                        print(obj)
+                        # answer_boxes = request.POST.get(str(obj))
+                        # answer_list = request.POST.getlist('question')
+                        answer_list = request.POST.get(str(obj.question))
+                        # print (str(obj.question))
+                        res_dict['id'] = obj.pk
+                        # print(obj.pk)
+                        res_dict['question'] = obj.question
+                        res_dict['user_answer'] = answer_list
+                        res_dict['right_answer'] = obj.answer
+                        quiz_result.append(res_dict)
+                        res_dict ={}
+
+
+            for i in quiz_result:
+                print(i)
+                # for key,values in i.items():
+
+                        # print(key)
+                user_answer = i['user_answer']
+                right_answer = i['right_answer']
+                if user_answer == right_answer:
+                    print('Вы ответили правильно!')
+                    right_count +=1
+                else: print ('не верно')
+                # print(user_answer)
+                # print(right_answer)        
+                ttl_count +=1
+                final_score = (right_count / ttl_count) * 100
+
+                
+
+            print    
+            print(type(right_count))
+            print(type(ttl_count))
+            print(type(final_score))
+
+            print('правильных ответов:', right_count)
+            print('Всего вопросов:', ttl_count)
+            # print('результат:' , final_score)
+            print('это результаты')
+            print(quiz_result)
+            data = {
+                'quiz_result': quiz_result,
+                'ttl_count': ttl_count,
+                'right_count': right_count,
+                'final_score': final_score
+            }        
+            if final_score > 80:
+                try:
+                    cert_result = Cert_Results.objects.filter(user_id=request.user).get(cerification_name=cert_area)
+                    return render(request, 'myapp/quiz_result.html', data)
+                except:
+                    cert_result = Cert_Results.objects.create(
+                        user_id = request.user.username,
+                        cerification_name = cert_area,
+                        status = 'OK',
+                        score = final_score,
+                        cert_status = 'Active'
+                        
+                    )
+                    return render(request, 'myapp/quiz_result.html', data)
+            else:
+                ert_result = Cert_Results.objects.create(
+                        user_id = request.user.username,
+                        cerification_name = cert_area,
+                        status = 'NOK',
+                        score = final_score,
+                        cert_status = 'Active'
+                    )
                 return render(request, 'myapp/quiz_result.html', data)
-        else:
-            ert_result = Cert_Results.objects.create(
-                    user_id = request.user.username,
-                    cerification_name = cert_area,
-                    status = 'NOK',
-                    score = final_score,
-                    cert_status = 'Active'
-                )
-            return render(request, 'myapp/quiz_result.html', data)
-            # print ('поздравляю')
-                    # print(answer_boxes)   
-                    # answer_list.append(answer_boxes)
-        # print('это тест')
-        # print(test)
+                # print ('поздравляю')
+                        # print(answer_boxes)   
+                        # answer_list.append(answer_boxes)
+            # print('это тест')
+            # print(test)
 
 
 
-    
+        
 
-    # data = {
-    #     'quiz': final_quiz_list,
-    #     'answer_list': answer_list
-    # }
-    return render(request, 'myapp/quiz.html', data)
-
+        # data = {
+        #     'quiz': final_quiz_list,
+        #     'answer_list': answer_list
+        # }
+        return render(request, 'myapp/quiz.html', data)
+    else:
+        return render(request, 'myapp/quiz_result.html')
 
     # print('full_quiz_list')
     # print(full_quiz_list)
