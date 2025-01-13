@@ -77,6 +77,7 @@ def get_technician_content(request, part_slug):             ## переимен�
 
     participants = Training_participants.objects.values('training_id').annotate(the_count=Count('training_id'))
 
+    print (cert_results)
     data = {
         'cources': cources,
         'slug_area': slug_area,
@@ -294,7 +295,8 @@ def quiz_start_page(request):
     final_quiz_list = []
     answer_list = []
     quiz = QuesModel.objects.all().values()
-    
+
+
     for i in quiz:
         full_quiz_list.append(i)
     # print(full_quiz_list)
@@ -334,6 +336,31 @@ def quiz(request, cert_area):
     ttl_count = 0
     right_count = 0
     final_score = 0
+
+    cert_result = Cert_Results.objects.filter(user_id=request.user).filter(cerification_name = cert_area).filter(cert_status='Active').count()
+    if cert_result > 0:
+        print ('вы уже сдавали тест')
+
+    # if cert_area 
+
+    # for i in cert_result:
+    #     if i.cerification_name == cert_area:
+    #         print ('вы уже сдавали тест')
+    #         # return redirect ('quiz_results')
+    #     print (i.cerification_name)
+
+    # if cert_area in cert_result:
+    #     print ('вы уже сдавали тест')
+    # print(cert_result)
+    # if cert_area in cert_result:
+    # # for i in cert_result:
+    #     print (i.cerification_name)
+    #     print ('вы уже сдавали тест')
+    # print(cert_area)
+    
+    # if cert_area == 
+
+
 
     if request.method == 'GET':
         final_quiz_list = []
@@ -421,7 +448,8 @@ def quiz(request, cert_area):
                     user_id = request.user.username,
                     cerification_name = cert_area,
                     status = 'OK',
-                    score = final_score
+                    score = final_score,
+                    cert_status = 'Active'
                     
                 )
                 return render(request, 'myapp/quiz_result.html', data)
@@ -430,7 +458,8 @@ def quiz(request, cert_area):
                     user_id = request.user.username,
                     cerification_name = cert_area,
                     status = 'NOK',
-                    score = final_score
+                    score = final_score,
+                    cert_status = 'Active'
                 )
             return render(request, 'myapp/quiz_result.html', data)
             # print ('поздравляю')
