@@ -485,6 +485,7 @@ class Cert_Results(models.Model):
     user_id = models.CharField(max_length=250)
     cerification_name = models.CharField(max_length=250)
     create_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=250)
 
 
     class Meta:

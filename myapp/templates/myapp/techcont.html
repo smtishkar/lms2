@@ -52,7 +52,10 @@
         {% elif slug_area.slug == 'online_certification' %}
             {% for online_certification in online_certifications %}
                 {% for edu_result in edu_results %}
-                        {% if online_certification.is_published and edu_result.title == online_certification.cert_requirements %}     
+
+
+                        {% if online_certification.is_published and edu_result.title == online_certification.cert_requirements %}    
+
                         <div class="col">
                             <div class="job-title-text">
                                 <h4>
@@ -70,6 +73,7 @@
                             </div>
                         </div>
                         {% endif %}
+
                 {% endfor %}    
             {% endfor %}
 

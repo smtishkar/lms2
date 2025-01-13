@@ -73,7 +73,7 @@ def get_technician_content(request, part_slug):             ## переимен�
     trainings = Training_shedule.objects.all()
     online_certifications = Edu_programs.objects.all()
     edu_results = Edu_Results.objects.filter(username=request.user)
-    # cert_results = Cert_Results.objects.filter(user_id=request.user)  #TODO: не сделана проверка на то, что тест уже пройдет
+    cert_results = Cert_Results.objects.filter(user_id=request.user)  #TODO: не сделана проверка на то, что тест уже пройдет
 
     participants = Training_participants.objects.values('training_id').annotate(the_count=Count('training_id'))
 
@@ -85,7 +85,7 @@ def get_technician_content(request, part_slug):             ## переимен�
         "participants": participants,
         'online_certifications': online_certifications,
         'edu_results': edu_results,
-        # 'cert_results': cert_results      #TODO: не сделана проверка на то, что тест уже пройдет
+        'cert_results': cert_results      #TODO: не сделана проверка на то, что тест уже пройдет
 
     }
 
@@ -406,14 +406,30 @@ def quiz(request, cert_area):
         # print('результат:' , final_score)
         print('это результаты')
         print(quiz_result)
+        data = {
+            'quiz_result': quiz_result,
+            'ttl_count': ttl_count,
+            'right_count': right_count,
+            'final_score': final_score
+        }        
         if final_score > 80:
             try:
                 cert_result = Cert_Results.objects.filter(user_id=request.user).get(cerification_name=cert_area)
+                return render(request, 'myapp/quiz_result.html', data)
             except:
                 cert_result = Cert_Results.objects.create(
                     user_id = request.user.username,
                     cerification_name = cert_area,
+                    status = 'OK'
                 )
+                return render(request, 'myapp/quiz_result.html', data)
+        else:
+            ert_result = Cert_Results.objects.create(
+                    user_id = request.user.username,
+                    cerification_name = cert_area,
+                    status = 'NOK'
+                )
+            return render(request, 'myapp/quiz_result.html', data)
             # print ('поздравляю')
                     # print(answer_boxes)   
                     # answer_list.append(answer_boxes)
@@ -423,12 +439,6 @@ def quiz(request, cert_area):
 
 
     
-        data = {
-            'quiz_result': quiz_result,
-            'ttl_count': ttl_count,
-            'right_count': right_count,
-            'final_score': final_score
-        }        
 
     # data = {
     #     'quiz': final_quiz_list,
