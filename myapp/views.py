@@ -420,14 +420,17 @@ def quiz(request, cert_area):
                 cert_result = Cert_Results.objects.create(
                     user_id = request.user.username,
                     cerification_name = cert_area,
-                    status = 'OK'
+                    status = 'OK',
+                    score = final_score
+                    
                 )
                 return render(request, 'myapp/quiz_result.html', data)
         else:
             ert_result = Cert_Results.objects.create(
                     user_id = request.user.username,
                     cerification_name = cert_area,
-                    status = 'NOK'
+                    status = 'NOK',
+                    score = final_score
                 )
             return render(request, 'myapp/quiz_result.html', data)
             # print ('поздравляю')

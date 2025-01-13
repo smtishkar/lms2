@@ -486,6 +486,7 @@ class Cert_Results(models.Model):
     cerification_name = models.CharField(max_length=250)
     create_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=250)
+    score = models.CharField(max_length=250)
 
 
     class Meta:

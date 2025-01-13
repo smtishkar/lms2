@@ -329,8 +329,8 @@ class Rights_accessAdmin(admin.ModelAdmin):
 
 @admin.register(Cert_Results)
 class Certification_ResultsAdmin(admin.ModelAdmin):
-    fields = ['user_id', 'cerification_name', 'status']
-    list_display = ('user_id', 'cerification_name', 'create_at', 'status',)
+    fields = ['user_id', 'cerification_name', 'status', 'score']
+    list_display = ('user_id', 'cerification_name', 'create_at', 'status', 'score')
     list_display_links = ('user_id', )    
     ordering = ['user_id']
     # list_editable = ('is_published', )
