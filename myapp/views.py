@@ -253,7 +253,7 @@ def certification_results(request):
 def get_team(request):
     profile = User.objects.get(username=request.user)
     dlr = profile.dlr
-    teams = User.objects.filter(dlr=dlr)
+    teams = User.objects.filter(dlr=dlr).order_by('last_name')
     print(dlr)
     cert_results = Cert_Results.objects.all()
     
@@ -323,7 +323,7 @@ def quiz_start_page(request):
 def quiz(request, cert_area):
     print(cert_area)
     print ('-'* 200)
-    quantity_of_question = 2 # Тут жестко задаем количество вопросов в тесте
+    quantity_of_question = 3 # Тут жестко задаем количество вопросов в тесте
     full_quiz_list =[]
     # final_quiz_list = []
     answer_list = []
@@ -397,14 +397,15 @@ def quiz(request, cert_area):
                 # print(user_answer)
                 # print(right_answer)        
                 ttl_count +=1
-                final_score = (right_count / ttl_count) * 100
+                final_score = round(((right_count / ttl_count) * 100),1)
 
                 
 
-            print    
-            print(type(right_count))
-            print(type(ttl_count))
+            # print    
+            # print(type(right_count))
+            # print(type(ttl_count))
             print(type(final_score))
+            print(final_score)
 
             print('правильных ответов:', right_count)
             print('Всего вопросов:', ttl_count)
@@ -432,7 +433,7 @@ def quiz(request, cert_area):
                     )
                     return render(request, 'myapp/quiz_result.html', data)
             else:
-                ert_result = Cert_Results.objects.create(
+                cert_result = Cert_Results.objects.create(
                         user_id = request.user.username,
                         cerification_name = cert_area,
                         status = 'NOK',

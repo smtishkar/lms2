@@ -8,7 +8,7 @@
 
 
     {% for cert in cert_results %}
-        {% if profile.username == cert.user_id%}
+        {% if profile.username == cert.user_id and cert.status == 'OK' and cert.cert_status == 'Active' %}
         <div class="certification-line">
             <div>
                 <h5>Программа обучения: {{cert.cerification_name}}</h5> 

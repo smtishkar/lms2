@@ -52,11 +52,11 @@
 
         {% for cert in cert_results %}
            
-                {% if team.username == cert.user_id and team.job_title == 'technician' and cert.cerification_name == 'TT' %}
+                {% if team.username == cert.user_id and team.job_title == 'technician' and cert.cerification_name == 'TT' and cert.status == 'OK' and cert.cert_status == 'Active'%}
                 {{ cert.cerification_name}}
-                {% elif team.username == cert.user_id and team.job_title == 'service advisor' and cert.cerification_name == 'SA' %}
+                {% elif team.username == cert.user_id and team.job_title == 'service advisor' and cert.cerification_name == 'SA' and cert.status == 'OK' and cert.cert_status == 'Active'%}
                 {{ cert.cerification_name}}
-                {% elif team.username == cert.user_id and team.job_title == 'diagnosis technician' and cert.cerification_name == 'DT' %}
+                {% elif team.username == cert.user_id and team.job_title == 'diagnosis technician' and cert.cerification_name == 'DT' and cert.status == 'OK' and cert.cert_status == 'Active'%}
                 {{ cert.cerification_name}}
                 {% endif%}
                 {% endfor%}
