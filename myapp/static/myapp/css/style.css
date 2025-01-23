@@ -705,3 +705,13 @@ ul, li {
   justify-items: center;
   align-items: center;
 }
+
+.quize-question-block{
+  margin-bottom: 20px;
+}
+
+
+.img-box-quiz{
+  display: flex;
+  margin-bottom: 20px;
+}
