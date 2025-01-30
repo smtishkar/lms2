@@ -7,6 +7,10 @@ from django.contrib import messages
 from embed_video.admin import AdminVideoMixin
 from .models import Videos
 
+from import_export import resources  
+from import_export.admin import ImportExportModelAdmin
+
+
 class MyModelAdmin(AdminVideoMixin, admin.ModelAdmin):
     pass
 
@@ -327,8 +331,14 @@ class Rights_accessAdmin(admin.ModelAdmin):
         self.message_user(request, f"{count} записей сняты с публикации!", messages.WARNING)
 
 
+
+class CertResultResources(resources.ModelResource):
+    class Meta:
+        model = Cert_Results
+        fields = ('user_id', 'cerification_name', 'status', 'score', 'cert_status',)
+
 @admin.register(Cert_Results)
-class Certification_ResultsAdmin(admin.ModelAdmin):
+class Certification_ResultsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     fields = ['user_id', 'cerification_name', 'status', 'score', 'cert_status']
     list_display = ('user_id', 'cerification_name', 'create_at', 'status', 'score', 'cert_status',)
     list_display_links = ('user_id', )    
@@ -337,6 +347,7 @@ class Certification_ResultsAdmin(admin.ModelAdmin):
     list_per_page = 10
     # actions = ['set_published', 'set_draft']
     search_fields = ['user_id']
+    resource_classes = [CertResultResources]
 
     # @admin.action(description="Опубликовать выбранные записи")
     # def set_published(self, request, queryset):
