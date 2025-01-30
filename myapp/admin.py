@@ -286,8 +286,15 @@ class Edu_programsAdmin(admin.ModelAdmin):
 
 
 
+
+class EduResultsResources(resources.ModelResource):
+    class Meta:
+        model = Edu_Results
+        fields = ('username', 'title', 'create_at', )
+
+
 @admin.register(Edu_Results)
-class Edu_ResultsAdmin(admin.ModelAdmin):
+class Edu_ResultsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     fields = ['title', 'username']
     list_display = ('id', 'title', 'username', 'create_at',)
     list_display_links = ('title', )    
@@ -296,6 +303,7 @@ class Edu_ResultsAdmin(admin.ModelAdmin):
     list_per_page = 10
     # actions = ['set_published', 'set_draft']
     search_fields = ['title', 'username']
+    resource_classes = [EduResultsResources]
 
     # @admin.action(description="Опубликовать выбранные записи")
     # def set_published(self, request, queryset):
@@ -335,7 +343,7 @@ class Rights_accessAdmin(admin.ModelAdmin):
 class CertResultResources(resources.ModelResource):
     class Meta:
         model = Cert_Results
-        fields = ('user_id', 'cerification_name', 'status', 'score', 'cert_status',)
+        fields = ('user_id', 'cerification_name', 'status', 'score', 'cert_status', 'create_at',)
 
 @admin.register(Cert_Results)
 class Certification_ResultsAdmin(ImportExportModelAdmin, admin.ModelAdmin):
